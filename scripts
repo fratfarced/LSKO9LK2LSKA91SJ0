@@ -1,620 +1,725 @@
--- MADE BY ISSAC
+-- Made by Issac lwserboy on discord.
 
-getgenv().Aimbot = {
-    Bind = "C",
-    HitPart = "HumanoidRootPart",
-    Time = 0.167,
-    Prediction = { X = 0.12567, Y = 0.08367 },
-    Distance = { Reference = 83.67, MaxMultiplier = 3.67 }
-}
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local UIS = game:GetService("UserInputService")
-local GuiService = game:GetService("GuiService")
-
-local LocalPlayer = Players.LocalPlayer
-local Camera = workspace.CurrentCamera
-
-local IsToggled = false
-local StickyLock = false
-local AimbotMode = "Toggle" -- Toggle / Hold
-local AimbotHeld = false
-local Target, Cycle
-
-local function GetTarget()
-    local closest, shortest = nil, math.huge
-    local m = UIS:GetMouseLocation()
-    local inset = GuiService:GetGuiInset()
-    local mx, my = m.X, m.Y - inset.Y
-
-    for _, p in ipairs(Players:GetPlayers()) do
-        if p ~= LocalPlayer and p.Character then
-            local hrp = p.Character:FindFirstChild("HumanoidRootPart")
-            local hum = p.Character:FindFirstChildOfClass("Humanoid")
-            if hrp and hum and hum.Health > 0 then
-                local pos, vis = Camera:WorldToViewportPoint(hrp.Position)
-                if vis then
-                    local d = (Vector2.new(pos.X,pos.Y) - Vector2.new(mx,my)).Magnitude
-                    if d < shortest then shortest, closest = d, p end
+return(function(Sb,...)
+    local function Sa(Db)
+        return Sb[Db+-6285]
+    end
+    getgenv().Aimbot={Bind=Sa(33929),HitPart='HumanoidRootPart',Time=Sa(-8150),Prediction={X=0.12567,Y=0.083669999999999994},Distance={Reference=Sa(25720),MaxMultiplier=3.6699999999999999}}
+    local z,Ha,Ba,ed=game:GetService'Players',game:GetService(Sa(20013)),game:GetService'UserInputService',game:GetService(Sa(-6524))
+    local fa_,za,f_,h,pd,Sc=z.LocalPlayer,workspace.CurrentCamera,Sa(38764),false,Sa(7855),false
+    local Vc,od
+    local function Dc()
+        return(function(bd)
+            local function Z(mb)
+                return bd[mb+26780]
+            end
+            local cc,jc,ob,nd=Z(-1635),math.huge,Ba:GetMouseLocation(),ed:GetGuiInset()
+            local ib,g=ob.X,ob.Y-nd.Y
+            for cb,Uc in ipairs(z:GetPlayers())do
+                if not(Uc~=fa_ and Uc.Character)then
+                else
+                    local Jc,hc=Uc.Character:FindFirstChild(Z(-22662)),Uc.Character:FindFirstChildOfClass(Z(-32107))
+                    if not(Jc and hc and hc.Health>0)then
+                    else
+                        local ca,H=za:WorldToViewportPoint(Jc.Position)
+                        if not(H)then
+                        else
+                            local xc=(Vector2 .new(ca.X,ca.Y)-Vector2 .new(ib,g)).Magnitude
+                            if xc<jc then
+                                jc,cc=xc,Uc
+                            end
+                        end
+                    end
                 end
             end
+            return cc
+        end){[4118]='HumanoidRootPart',[25145]=nil,[-5327]='Humanoid'}
+    end
+    local function db()
+        if od then
+            od:Disconnect()
         end
+        Vc=nil;
+        od=Ha.RenderStepped:Connect(function()
+            return(function(Nc)
+                local function Xa(wc)
+                    return Nc[wc+-14097]
+                end
+                if not h or not Vc then
+                    Vc=Dc()
+                end
+                if not Vc or not Vc.Character then
+                    return
+                end
+                local Ma=Vc.Character:FindFirstChild'HumanoidRootPart'
+                if not Ma then
+                    return
+                end
+                local qa,Lc=Ma.Velocity,(za.CFrame.Position-Ma.Position).Magnitude
+                local t_=math.clamp(Lc/getgenv().Aimbot.Distance.Reference,Xa(11080),getgenv().Aimbot.Distance.MaxMultiplier)
+                local la=Ma.Position+Vector3 .new(qa.X*getgenv().Aimbot.Prediction.X*t_,qa.Y*getgenv().Aimbot.Prediction.Y,qa.Z*getgenv().Aimbot.Prediction.X*t_);
+                za.CFrame=CFrame.lookAt(za.CFrame.Position,la)
+            end){[-3017]=1}
+        end)
     end
-    return closest
-end
-
-local function StartAimbot()
-    if Cycle then Cycle:Disconnect() end
-    Target = nil
-    Cycle = RunService.RenderStepped:Connect(function()
-        if not StickyLock or not Target then Target = GetTarget() end
-        if not Target or not Target.Character then return end
-
-        local hrp = Target.Character:FindFirstChild("HumanoidRootPart")
-        if not hrp then return end
-
-        local vel = hrp.Velocity
-        local dist = (Camera.CFrame.Position - hrp.Position).Magnitude
-        local mult = math.clamp(dist / getgenv().Aimbot.Distance.Reference, 1, getgenv().Aimbot.Distance.MaxMultiplier)
-
-        local pred = hrp.Position + Vector3.new(
-            vel.X * getgenv().Aimbot.Prediction.X * mult,
-            vel.Y * getgenv().Aimbot.Prediction.Y,
-            vel.Z * getgenv().Aimbot.Prediction.X * mult
-        )
-
-        Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, pred)
-    end)
-end
-
-local function MatchesBind(input)
-    local b = getgenv().Aimbot.Bind
-    if input.UserInputType == Enum.UserInputType.Keyboard then
-        return input.KeyCode.Name == b
+    local function Aa(U)
+        local F=getgenv().Aimbot.Bind
+        if U.UserInputType==Enum.UserInputType.Keyboard then
+            return U.KeyCode.Name==F
+        end
+        return(F=='MouseButton4'and U.UserInputType==Enum.UserInputType.MouseButton4)or(F=='MouseButton5'and U.UserInputType==Enum.UserInputType.MouseButton5)
     end
-    return (b == "MouseButton4" and input.UserInputType == Enum.UserInputType.MouseButton4)
-        or (b == "MouseButton5" and input.UserInputType == Enum.UserInputType.MouseButton5)
-end
-
-local UI = Instance.new("ScreenGui", LocalPlayer.PlayerGui)
-UI.ResetOnSpawn = false
-
-local Main = Instance.new("Frame", UI)
-Main.Size = UDim2.fromOffset(360, 360)
-Main.Position = UDim2.fromScale(0.5, 0.5)
-Main.AnchorPoint = Vector2.new(0.5,0.5)
-Main.BackgroundColor3 = Color3.fromRGB(18,18,18)
-Instance.new("UICorner", Main).CornerRadius = UDim.new(0,12)
-
-local Top = Instance.new("Frame", Main)
-Top.Size = UDim2.new(1,0,0,36)
-Top.BackgroundColor3 = Color3.fromRGB(25,25,25)
-Instance.new("UICorner", Top).CornerRadius = UDim.new(0,12)
-
-local Title = Instance.new("TextLabel", Top)
-Title.Size = UDim2.fromScale(1,1)
-Title.BackgroundTransparency = 1
-Title.Text = "Aimbot Settings"
-Title.TextColor3 = Color3.new(1,1,1)
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 16
-
-local dragging, dragStart, startPos
-Top.InputBegan:Connect(function(i)
-    if i.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = i.Position
-        startPos = Main.Position
-    end
-end)
-UIS.InputEnded:Connect(function(i)
-    if i.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
-end)
-UIS.InputChanged:Connect(function(i)
-    if dragging and i.UserInputType == Enum.UserInputType.MouseMovement then
-        local d = i.Position - dragStart
-        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset+d.X, startPos.Y.Scale, startPos.Y.Offset+d.Y)
-    end
-end)
-
-local function slider(text,y,min,max,get,set)
-    local lbl = Instance.new("TextLabel", Main)
-    lbl.Position = UDim2.fromOffset(16,y)
-    lbl.Size = UDim2.fromOffset(330,20)
-    lbl.BackgroundTransparency = 1
-    lbl.TextColor3 = Color3.new(1,1,1)
-    lbl.Font = Enum.Font.Gotham
-    lbl.TextSize = 14
-    lbl.TextXAlignment = "Left"
-
-    local bar = Instance.new("Frame", Main)
-    bar.Position = UDim2.fromOffset(16,y+22)
-    bar.Size = UDim2.fromOffset(330,6)
-    bar.BackgroundColor3 = Color3.fromRGB(60,60,60)
-    Instance.new("UICorner", bar).CornerRadius = UDim.new(1,0)
-
-    local knob = Instance.new("Frame", bar)
-    knob.Size = UDim2.fromOffset(14,14)
-    knob.AnchorPoint = Vector2.new(0.5,0.5)
-    knob.BackgroundColor3 = Color3.fromRGB(220,220,220)
-    Instance.new("UICorner", knob).CornerRadius = UDim.new(1,0)
-
-    local drag=false
-    local function update()
-        local v=get()
-        knob.Position = UDim2.fromScale((v-min)/(max-min),0.5)
-        lbl.Text = string.format("%s: %.3f",text,v)
-    end
-    update()
-
-    knob.InputBegan:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 then drag=true end end)
-    UIS.InputEnded:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 then drag=false end end)
-    UIS.InputChanged:Connect(function(i)
-        if drag and i.UserInputType==Enum.UserInputType.MouseMovement then
-            local m=UIS:GetMouseLocation()
-            local p=math.clamp((m.X-bar.AbsolutePosition.X)/bar.AbsoluteSize.X,0,1)
-            set(min+(max-min)*p)
-            update()
+    local lb=Instance.new('ScreenGui',fa_.PlayerGui);
+    lb.ResetOnSpawn=false
+    local X=Instance.new(Sa(-22300),lb);
+    X.Size=UDim2 .fromOffset(360,Sa(-13428));
+    X.Position=UDim2 .fromScale(0.5,Sa(14572));
+    X.AnchorPoint=Vector2 .new(Sa(2006),0.5);
+    X.BackgroundColor3=Color3 .fromRGB(18,18,18);
+    Instance.new(Sa(7190),X).CornerRadius=UDim.new(0,Sa(11335))
+    local Ea=Instance.new('Frame',X);
+    Ea.Size=UDim2 .new(Sa(2769),0,Sa(4831),36);
+    Ea.BackgroundColor3=Color3 .fromRGB(Sa(-19446),25,Sa(-1156));
+    Instance.new(Sa(6266),Ea).CornerRadius=UDim.new(Sa(24754),12)
+    local Vb=Instance.new(Sa(8203),Ea);
+    Vb.Size=UDim2 .fromScale(1,1);
+    Vb.BackgroundTransparency=1;
+    Vb.Text='Aimbot Settings';
+    Vb.TextColor3=Color3 .new(1,Sa(28137),Sa(5980));
+    Vb.Font=Enum.Font.GothamBold;
+    Vb.TextSize=Sa(38950)
+    local n_,fb,fc;
+    Ea.InputBegan:Connect(function(kb)
+        return(function(Mc)
+            local function Bc(id)
+                return Mc[id-22720]
+            end
+            if not(kb.UserInputType==Enum.UserInputType.MouseButton1)then
+            else
+                n_=Bc(49386);
+                fb=kb.Position;
+                fc=X.Position
+            end
+        end){[26666]=true}
+    end);
+    Ba.InputEnded:Connect(function(E)
+        return(function(Qc)
+            local function r_(wa)
+                return Qc[wa- -3386]
+            end
+            if E.UserInputType==Enum.UserInputType.MouseButton1 then
+                n_=r_(-4997)
+            end
+        end){[-1611]=false}
+    end);
+    Ba.InputChanged:Connect(function(sd)
+        if n_ and sd.UserInputType==Enum.UserInputType.MouseMovement then
+            local cd=sd.Position-fb;
+            X.Position=UDim2 .new(fc.X.Scale,fc.X.Offset+cd.X,fc.Y.Scale,fc.Y.Offset+cd.Y)
         end
     end)
-end
-
-slider("Prediction X",50,0,0.5,function()return getgenv().Aimbot.Prediction.X end,function(v)getgenv().Aimbot.Prediction.X=v end)
-slider("Prediction Y",100,0,0.5,function()return getgenv().Aimbot.Prediction.Y end,function(v)getgenv().Aimbot.Prediction.Y=v end)
-slider("Smoothness",150,0,0.3,function()return getgenv().Aimbot.Time end,function(v)getgenv().Aimbot.Time=v end)
-
-local StickyBtn = Instance.new("TextButton", Main)
-StickyBtn.Position = UDim2.fromOffset(16,200)
-StickyBtn.Size = UDim2.fromOffset(330,30)
-StickyBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-StickyBtn.TextColor3 = Color3.new(1,1,1)
-StickyBtn.Font = Enum.Font.Gotham
-StickyBtn.TextSize = 14
-StickyBtn.Text = "Sticky Lock: OFF"
-Instance.new("UICorner", StickyBtn)
-StickyBtn.MouseButton1Click:Connect(function()
-    StickyLock = not StickyLock
-    Target=nil
-    StickyBtn.Text="Sticky Lock: "..(StickyLock and "ON" or "OFF")
-end)
-
-local ModeBtn = Instance.new("TextButton", Main)
-ModeBtn.Position = UDim2.fromOffset(16,240)
-ModeBtn.Size = UDim2.fromOffset(330,30)
-ModeBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-ModeBtn.TextColor3 = Color3.new(1,1,1)
-ModeBtn.Font = Enum.Font.Gotham
-ModeBtn.TextSize = 14
-ModeBtn.Text = "Aimbot Mode: TOGGLE"
-Instance.new("UICorner", ModeBtn)
-ModeBtn.MouseButton1Click:Connect(function()
-    AimbotMode = (AimbotMode=="Toggle") and "Hold" or "Toggle"
-    ModeBtn.Text="Aimbot Mode: "..string.upper(AimbotMode)
-end)
-
-local KeyBox = Instance.new("TextBox", Main)
-KeyBox.Position = UDim2.fromOffset(16,280)
-KeyBox.Size = UDim2.fromOffset(330,32)
-KeyBox.BackgroundColor3 = Color3.fromRGB(35,35,35)
-KeyBox.TextColor3 = Color3.new(1,1,1)
-KeyBox.Font = Enum.Font.Gotham
-KeyBox.TextSize = 14
-KeyBox.Text = "Aimbot Key: "..getgenv().Aimbot.Bind
-KeyBox.ClearTextOnFocus=false
-Instance.new("UICorner", KeyBox)
-
-local waiting=false
-KeyBox.Focused:Connect(function()
-    waiting=true
-    KeyBox.Text="Press key or mouse button..."
-end)
-
-UIS.InputBegan:Connect(function(input,gp)
-    if input.KeyCode == Enum.KeyCode.Insert or input.KeyCode == Enum.KeyCode.F4 then
-        UI.Enabled = not UI.Enabled
-        return
+    local function W(ga,nc,md,rc,_a,eb)
+        return(function(Jb)
+            local function c(Q)
+                return Jb[Q-18336]
+            end
+            local Ib=Instance.new(c(18946),X);
+            Ib.Position=UDim2 .fromOffset(c(38585),nc);
+            Ib.Size=UDim2 .fromOffset(330,20);
+            Ib.BackgroundTransparency=1;
+            Ib.TextColor3=Color3 .new(1,c(7036),c(39442));
+            Ib.Font=Enum.Font.Gotham;
+            Ib.TextSize=14;
+            Ib.TextXAlignment=c(43193)
+            local Na=Instance.new('Frame',X);
+            Na.Position=UDim2 .fromOffset(16,nc+c(34465));
+            Na.Size=UDim2 .fromOffset(c(3907),6);
+            Na.BackgroundColor3=Color3 .fromRGB(60,c(8783),c(-7535));
+            Instance.new(c(-9633),Na).CornerRadius=UDim.new(1,0)
+            local _c=Instance.new(c(34781),Na);
+            _c.Size=UDim2 .fromOffset(c(42373),14);
+            _c.AnchorPoint=Vector2 .new(0.5,0.5);
+            _c.BackgroundColor3=Color3 .fromRGB(c(-9446),c(29400),c(-11231));
+            Instance.new('UICorner',_c).CornerRadius=UDim.new(c(-3644),0)
+            local Da=c(20789)
+            local function w_()
+                return(function(xb)
+                    local function da(mc)
+                        return xb[mc+-14665]
+                    end
+                    local Fa=_a();
+                    _c.Position=UDim2 .fromScale((Fa-md)/(rc-md),da(8378));
+                    Ib.Text=string.format(da(2425),ga,Fa)
+                end){[-6287]=0.5,[-12240]='%s: %.3f'}
+            end
+            w_();
+            _c.InputBegan:Connect(function(ba)
+                if not(ba.UserInputType==Enum.UserInputType.MouseButton1)then
+                else
+                    Da=true
+                end
+            end);
+            Ba.InputEnded:Connect(function(yc)
+                return(function(Hb)
+                    local function ab(J)
+                        return Hb[J+-27077]
+                    end
+                    if yc.UserInputType==Enum.UserInputType.MouseButton1 then
+                        Da=ab(49678)
+                    end
+                end){[22601]=false}
+            end);
+            Ba.InputChanged:Connect(function(Mb)
+                if Da and Mb.UserInputType==Enum.UserInputType.MouseMovement then
+                    local zb=Ba:GetMouseLocation()
+                    local Y=math.clamp((zb.X-Na.AbsolutePosition.X)/Na.AbsoluteSize.X,0,1);
+                    eb(md+(rc-md)*Y);
+                    w_()
+                end
+            end)
+        end){[20249]=16,[21106]=1,[24857]='Left',[-11300]=1,[-29567]=220,[2453]=false,[-25871]=60,[11064]=220,[16129]=22,[16445]='Frame',[-27782]=220,[-27969]='UICorner',[-14429]=330,[24037]=14,[-9553]=60,[610]='TextLabel',[-21980]=1}
     end
-
-    if waiting then
-        if input.UserInputType==Enum.UserInputType.Keyboard then
-            getgenv().Aimbot.Bind=input.KeyCode.Name
-        elseif input.UserInputType==Enum.UserInputType.MouseButton4 then
-            getgenv().Aimbot.Bind="MouseButton4"
-        elseif input.UserInputType==Enum.UserInputType.MouseButton5 then
-            getgenv().Aimbot.Bind="MouseButton5"
-        else return end
-        KeyBox.Text="Aimbot Key: "..getgenv().Aimbot.Bind
-        waiting=false
-        KeyBox:ReleaseFocus()
-        return
+    W('Prediction X',50,0,Sa(27419),function()
+        return getgenv().Aimbot.Prediction.X
+    end,function(ha)
+        getgenv().Aimbot.Prediction.X=ha
+    end);
+    W('Prediction Y',100,0,Sa(38257),function()
+        return getgenv().Aimbot.Prediction.Y
+    end,function(Pb)
+        getgenv().Aimbot.Prediction.Y=Pb
+    end);
+    W(Sa(-25583),Sa(31682),Sa(-22789),Sa(15903),function()
+        return getgenv().Aimbot.Time
+    end,function(Ra)
+        getgenv().Aimbot.Time=Ra
+    end)
+    local dc=Instance.new(Sa(-16694),X);
+    dc.Position=UDim2 .fromOffset(Sa(-12328),200);
+    dc.Size=UDim2 .fromOffset(Sa(-16136),Sa(9957));
+    dc.BackgroundColor3=Color3 .fromRGB(40,Sa(27971),40);
+    dc.TextColor3=Color3 .new(Sa(-17813),1,1);
+    dc.Font=Enum.Font.Gotham;
+    dc.TextSize=Sa(-6780);
+    dc.Text=Sa(-12532);
+    Instance.new(Sa(-25263),dc);
+    dc.MouseButton1Click:Connect(function()
+        return(function(Ia)
+            local function Lb(M)
+                return Ia[M- -29406]
+            end
+            h=not h;
+            Vc=Lb(-30301);
+            dc.Text=Lb(-37777)..(h and Lb(-53295)or'OFF')
+        end){[-895]=nil,[-23889]='ON',[-8371]='Sticky Lock: '}
+    end)
+    local K=Instance.new(Sa(-3424),X);
+    K.Position=UDim2 .fromOffset(Sa(-15047),240);
+    K.Size=UDim2 .fromOffset(Sa(-2853),30);
+    K.BackgroundColor3=Color3 .fromRGB(40,Sa(8894),40);
+    K.TextColor3=Color3 .new(Sa(-7409),Sa(33948),Sa(11045));
+    K.Font=Enum.Font.Gotham;
+    K.TextSize=14;
+    K.Text='Aimbot Mode: TOGGLE';
+    Instance.new('UICorner',K);
+    K.MouseButton1Click:Connect(function()
+        return(function(ja)
+            local function Zb(wb)
+                return ja[wb+-12336]
+            end
+            pd=(pd==Zb(10946))and Zb(4549)or Zb(-17852);
+            K.Text=Zb(-19301)..string.upper(pd)
+        end){[-31637]='Aimbot Mode: ',[-30188]='Toggle',[-7787]='Hold',[-1390]='Toggle'}
+    end)
+    local Ca=Instance.new('TextBox',X);
+    Ca.Position=UDim2 .fromOffset(Sa(26065),280);
+    Ca.Size=UDim2 .fromOffset(Sa(21401),Sa(13859));
+    Ca.BackgroundColor3=Color3 .fromRGB(Sa(17144),35,35);
+    Ca.TextColor3=Color3 .new(Sa(36468),1,1);
+    Ca.Font=Enum.Font.Gotham;
+    Ca.TextSize=Sa(5684);
+    Ca.Text=Sa(-16702)..getgenv().Aimbot.Bind;
+    Ca.ClearTextOnFocus=false;
+    Instance.new('UICorner',Ca)
+    local _d=false;
+    Ca.Focused:Connect(function()
+        return(function(jb)
+            local function i_(gc)
+                return jb[gc-23604]
+            end
+            _d=i_(21740);
+            Ca.Text='Press key or mouse button...'
+        end){[-1864]=true}
+    end);
+    Ba.InputBegan:Connect(function(Za,qd)
+        return(function(Cc)
+            local function u_(Pc)
+                return Cc[Pc-17010]
+            end
+            if Za.KeyCode==Enum.KeyCode.Insert or Za.KeyCode==Enum.KeyCode.F4 then
+                lb.Enabled=not lb.Enabled
+                return
+            end
+            if _d then
+                if Za.UserInputType==Enum.UserInputType.Keyboard then
+                    getgenv().Aimbot.Bind=Za.KeyCode.Name
+                elseif Za.UserInputType==Enum.UserInputType.MouseButton4 then
+                    getgenv().Aimbot.Bind='MouseButton4'
+                elseif Za.UserInputType==Enum.UserInputType.MouseButton5 then
+                    getgenv().Aimbot.Bind='MouseButton5'
+                else
+                    return
+                end
+                Ca.Text='Aimbot Key: '..getgenv().Aimbot.Bind;
+                _d=false;
+                Ca:ReleaseFocus()
+                return
+            end
+            if not(qd)then
+            else
+                return
+            end
+            if not(Aa(Za))then
+            else
+                if not(pd=='Toggle')then
+                    if pd==u_(-864)and not Sc then
+                        db();
+                        Sc=true
+                    end
+                else
+                    if f_ then
+                        if not(od)then
+                        else
+                            od:Disconnect()
+                        end
+                        Vc=nil
+                    else
+                        db()
+                    end
+                    f_=not f_
+                end
+            end
+        end){[-17874]='Hold'}
+    end);
+    Ba.InputEnded:Connect(function(j)
+        return(function(ta)
+            local function Rc(p)
+                return ta[p+591]
+            end
+            if pd=='Hold'and Aa(j)then
+                if not(od)then
+                else
+                    od:Disconnect()
+                end
+                Vc=Rc(-16025);
+                Sc=Rc(-26737)
+            end
+        end){[-15434]=nil,[-26146]=false}
+    end);
+    print(Sa(-21744))
+    local Oa,a_=game:GetService(Sa(7358)),game:GetService(Sa(-25830))
+    local P,bb,td=Oa.LocalPlayer,workspace.CurrentCamera,Instance.new'ScreenGui';
+    td.Name='IsaacTabbedUI';
+    td.ResetOnSpawn=false;
+    td.Parent=P:WaitForChild(Sa(3838))
+    local Ua=Instance.new'Frame';
+    Ua.Size=UDim2 .fromOffset(Sa(15157),Sa(18264));
+    Ua.Position=UDim2 .fromScale(Sa(-20423),0.5);
+    Ua.AnchorPoint=Vector2 .new(0.5,0.5);
+    Ua.BackgroundColor3=Color3 .fromRGB(15,15,18);
+    Ua.Parent=td;
+    Instance.new(Sa(-13651),Ua).CornerRadius=UDim.new(0,14)
+    local rb=Instance.new'Frame';
+    rb.Size=UDim2 .new(1,Sa(7589),0,40);
+    rb.BackgroundColor3=Color3 .fromRGB(20,Sa(823),24);
+    rb.Parent=Ua;
+    Instance.new('UICorner',rb).CornerRadius=UDim.new(0,14)
+    local vc=Instance.new(Sa(-15369));
+    vc.Size=UDim2 .new(1,Sa(-11633),0,14);
+    vc.Position=UDim2 .fromOffset(Sa(13427),26);
+    vc.BackgroundColor3=Color3 .fromRGB(Sa(-17749),Sa(-20316),24);
+    vc.BorderSizePixel=Sa(-16947);
+    vc.Parent=rb
+    local qb=Instance.new'TextLabel';
+    qb.BackgroundTransparency=1;
+    qb.Size=UDim2 .new(Sa(-3765),-16,1,0);
+    qb.Position=UDim2 .fromOffset(16,0);
+    qb.Font=Enum.Font.GothamBold;
+    qb.TextSize=Sa(19432);
+    qb.TextColor3=Color3 .fromRGB(235,Sa(-1527),Sa(24001));
+    qb.TextXAlignment=Enum.TextXAlignment.Left;
+    qb.Text='lwserboy on discord and f9 for more info.';
+    qb.Parent=rb
+    do
+        local oa=Sa(17916)
+        local pb,Ab;
+        rb.InputBegan:Connect(function(Va)
+            if not(Va.UserInputType==Enum.UserInputType.MouseButton1)then
+            else
+                oa=true;
+                pb=Va.Position;
+                Ab=Ua.Position
+            end
+        end);
+        a_.InputEnded:Connect(function(Gb)
+            return(function(Xc)
+                local function gd(yb)
+                    return Xc[yb-11242]
+                end
+                if Gb.UserInputType==Enum.UserInputType.MouseButton1 then
+                    oa=gd(-2540)
+                end
+            end){[-13782]=false}
+        end);
+        a_.InputChanged:Connect(function(L)
+            if not(oa and L.UserInputType==Enum.UserInputType.MouseMovement)then
+            else
+                local ub=L.Position-pb;
+                Ua.Position=UDim2 .new(Ab.X.Scale,Ab.X.Offset+ub.X,Ab.Y.Scale,Ab.Y.Offset+ub.Y)
+            end
+        end)
     end
-
-    if gp then return end
-    if MatchesBind(input) then
-        if AimbotMode=="Toggle" then
-            if not IsToggled then StartAimbot() else if Cycle then Cycle:Disconnect() end Target=nil end
-            IsToggled=not IsToggled
-        elseif AimbotMode=="Hold" and not AimbotHeld then
-            StartAimbot()
-            AimbotHeld=true
+    local Wc=Instance.new'Frame';
+    Wc.Size=UDim2 .fromOffset(150,420);
+    Wc.Position=UDim2 .fromOffset(Sa(-25332),52);
+    Wc.BackgroundColor3=Color3 .fromRGB(Sa(-7562),18,Sa(12504));
+    Wc.Parent=Ua;
+    Instance.new('UICorner',Wc).CornerRadius=UDim.new(Sa(27886),Sa(38235))
+    local Ec=Instance.new(Sa(37659));
+    Ec.Padding=UDim.new(0,Sa(37567));
+    Ec.SortOrder=Enum.SortOrder.LayoutOrder;
+    Ec.Parent=Wc
+    local C=Instance.new'UIPadding';
+    C.PaddingTop=UDim.new(0,16);
+    C.PaddingLeft=UDim.new(Sa(-13592),Sa(35114));
+    C.PaddingRight=UDim.new(0,Sa(-4285));
+    C.Parent=Wc
+    local function dd(pa,Kc)
+        return(function(lc)
+            local function ua(D)
+                return lc[D+-7617]
+            end
+            local xa=Instance.new'TextButton';
+            xa.LayoutOrder=Kc;
+            xa.Size=UDim2 .new(1,ua(2644),0,44);
+            xa.BackgroundColor3=Color3 .fromRGB(28,28,34);
+            xa.TextColor3=Color3 .fromRGB(240,240,ua(-13918));
+            xa.Font=Enum.Font.GothamSemibold;
+            xa.TextSize=ua(12144);
+            xa.Text=pa;
+            xa.Parent=Wc;
+            Instance.new(ua(-8276),xa).CornerRadius=UDim.new(ua(38374),12)
+            return xa
+        end){[30757]=0,[-4973]=0,[4527]=14,[-15893]='UICorner',[-21535]=240}
+    end
+    local Ic,pc,hb=dd(Sa(-1588),Sa(26456)),dd(Sa(-19911),2),Instance.new'Frame';
+    hb.Size=UDim2 .fromOffset(Sa(-22508),Sa(35061));
+    hb.Position=UDim2 .fromOffset(Sa(-26458),Sa(34252));
+    hb.BackgroundColor3=Color3 .fromRGB(18,Sa(16515),22);
+    hb.Parent=Ua;
+    Instance.new(Sa(11306),hb).CornerRadius=UDim.new(0,Sa(-6440))
+    local function Hc()
+        return(function(zc)
+            local function ea(x)
+                return zc[x-8881]
+            end
+            local Fc=Instance.new'Frame';
+            Fc.Size=UDim2 .fromScale(1,ea(-10144));
+            Fc.BackgroundTransparency=1;
+            Fc.Parent=hb
+            return Fc
+        end){[-19025]=1}
+    end
+    local tc,Eb=Hc(),Hc();
+    Eb.Visible=Sa(-22662)
+    local function sc(qc)
+        return(function(d_)
+            local function ka(V)
+                return d_[V-26040]
+            end
+            tc.Visible=(qc=='Aimbot');
+            Eb.Visible=(qc=='Players');
+            Ic.BackgroundColor3=(qc==ka(-4776))and Color3 .fromRGB(42,ka(27491),ka(47501))or Color3 .fromRGB(28,ka(18406),ka(5667));
+            pc.BackgroundColor3=(qc==ka(44543))and Color3 .fromRGB(ka(39565),42,ka(-459))or Color3 .fromRGB(ka(28177),ka(-5857),34)
+        end){[-30816]='Aimbot',[-7634]=28,[13525]=42,[2137]=28,[1451]=42,[-31897]=28,[-20373]=34,[21461]=52,[18503]='Players',[-26499]=52}
+    end
+    Ic.MouseButton1Click:Connect(function()
+        sc'Aimbot'
+    end);
+    pc.MouseButton1Click:Connect(function()
+        sc'Players'
+    end);
+    sc(Sa(1488))
+    local gb=Instance.new(Sa(-3766));
+    gb.BackgroundTransparency=1;
+    gb.Position=UDim2 .fromOffset(18,Sa(-2839));
+    gb.Size=UDim2 .new(Sa(23107),Sa(-14983),Sa(39030),24);
+    gb.Font=Enum.Font.GothamBold;
+    gb.TextSize=Sa(32336);
+    gb.TextXAlignment=Enum.TextXAlignment.Left;
+    gb.TextColor3=Color3 .fromRGB(Sa(5779),Sa(-18084),Sa(6245));
+    gb.Text=Sa(-19053);
+    gb.Parent=tc
+    local hd=Instance.new(Sa(11179));
+    hd.BackgroundTransparency=1;
+    hd.Position=UDim2 .fromOffset(18,Sa(4098));
+    hd.Size=UDim2 .new(1,Sa(34154),Sa(-7588),40);
+    hd.Font=Enum.Font.Gotham;
+    hd.TextSize=Sa(-16611);
+    hd.TextXAlignment=Enum.TextXAlignment.Left;
+    hd.TextColor3=Color3 .fromRGB(190,190,190);
+    hd.TextWrapped=true;
+    hd.Text='The aimbot tab is in a different window. Move this window around to see the aimbot settings window.';
+    hd.Parent=tc
+    local va,uc={},Sa(25660)
+    local function Wa(Nb,tb,nb)
+        return(function(e_)
+            local function ya(ia)
+                return e_[ia+25190]
+            end
+            local Ga=Instance.new(ya(-50735));
+            Ga.BackgroundTransparency=ya(-26571);
+            Ga.Position=UDim2 .fromOffset(ya(-52322),nb);
+            Ga.Size=UDim2 .new(ya(-19135),-36,0,24);
+            Ga.Font=Enum.Font.GothamBold;
+            Ga.TextSize=18;
+            Ga.TextXAlignment=Enum.TextXAlignment.Left;
+            Ga.TextColor3=Color3 .fromRGB(240,ya(-22195),ya(2378));
+            Ga.Text=tb;
+            Ga.Parent=Nb
+            return Ga
+        end){[2995]=240,[-27132]=18,[-1381]=1,[6055]=1,[27568]=240,[-25545]='TextLabel'}
+    end
+    Wa(Eb,Sa(-15505),18)
+    local Ja=Instance.new(Sa(12285));
+    Ja.Position=UDim2 .fromOffset(Sa(146),60);
+    Ja.Size=UDim2 .fromOffset(Sa(-2329),Sa(-13973));
+    Ja.BackgroundColor3=Color3 .fromRGB(Sa(-11205),22,28);
+    Ja.Parent=Eb;
+    Instance.new('UICorner',Ja).CornerRadius=UDim.new(0,14)
+    local ad=Instance.new'ScrollingFrame';
+    ad.Position=UDim2 .fromOffset(10,Sa(24412));
+    ad.Size=UDim2 .new(1,Sa(19528),Sa(-3228),-20);
+    ad.BackgroundTransparency=1;
+    ad.ScrollBarThickness=Sa(11490);
+    ad.CanvasSize=UDim2 .new(Sa(-10788),Sa(13167),0,0);
+    ad.Parent=Ja
+    local Rb=Instance.new(Sa(32146));
+    Rb.Padding=UDim.new(0,10);
+    Rb.SortOrder=Enum.SortOrder.LayoutOrder;
+    Rb.Parent=ad
+    local Tc=Instance.new(Sa(-25735));
+    Tc.Position=UDim2 .fromOffset(390,Sa(23604));
+    Tc.Size=UDim2 .fromOffset(Sa(23336),330);
+    Tc.BackgroundColor3=Color3 .fromRGB(22,Sa(3589),28);
+    Tc.Parent=Eb;
+    Instance.new('UICorner',Tc).CornerRadius=UDim.new(Sa(-8586),Sa(-12527))
+    local sb=Instance.new(Sa(-903));
+    sb.Position=UDim2 .fromOffset(14,Sa(32180));
+    sb.Size=UDim2 .fromOffset(64,64);
+    sb.BackgroundTransparency=Sa(13170);
+    sb.Parent=Tc
+    local o_=Instance.new(Sa(37114));
+    o_.Position=UDim2 .fromOffset(86,14);
+    o_.Size=UDim2 .fromOffset(Sa(-17001),Sa(-23487));
+    o_.BackgroundTransparency=1;
+    o_.Font=Enum.Font.Gotham;
+    o_.TextSize=Sa(3970);
+    o_.TextXAlignment=Enum.TextXAlignment.Left;
+    o_.TextYAlignment=Enum.TextYAlignment.Top;
+    o_.TextColor3=Color3 .fromRGB(235,Sa(-12263),235);
+    o_.TextWrapped=Sa(23549);
+    o_.Text='Select a player';
+    o_.Parent=Tc
+    local N=Instance.new'TextLabel';
+    N.Position=UDim2 .fromOffset(Sa(139),Sa(20238));
+    N.Size=UDim2 .fromOffset(184,18);
+    N.BackgroundTransparency=1;
+    N.Font=Enum.Font.Gotham;
+    N.TextSize=Sa(36976);
+    N.TextXAlignment=Enum.TextXAlignment.Left;
+    N.TextColor3=Color3 .fromRGB(Sa(13528),180,180);
+    N.Text='';
+    N.Parent=Tc
+    local function Pa(La)
+        local na=La.Character
+        if not na then
+            return nil
+        end
+        return na:FindFirstChildOfClass'Humanoid'
+    end
+    local function Ob(Ta)
+        if not(Ta and Ta.Character)then
+        else
+            local Oc=Pa(Ta)
+            if not(Oc)then
+            else
+                bb.CameraSubject=Oc
+                return
+            end
+        end
+        local Ya=Pa(P)
+        if not(Ya)then
+        else
+            bb.CameraSubject=Ya
         end
     end
-end)
-
-UIS.InputEnded:Connect(function(input)
-    if AimbotMode=="Hold" and MatchesBind(input) then
-        if Cycle then Cycle:Disconnect() end
-        Target=nil
-        AimbotHeld=false
+    local function _b(b_)
+        if not b_ or not b_.Character then
+            return
+        end
+        if not P.Character then
+            return
+        end
+        P.Character:PivotTo(b_.Character:GetPivot())
     end
-end)
-
-print("lwserboy on discord for more. Insrt/F4 for UI toggle")
-
-local Players = game:GetService("Players")
-local UIS = game:GetService("UserInputService")
-
-local LocalPlayer = Players.LocalPlayer
-local Camera = workspace.CurrentCamera
-
-local IsaacTabsUI = Instance.new("ScreenGui")
-IsaacTabsUI.Name = "IsaacTabbedUI"
-IsaacTabsUI.ResetOnSpawn = false
-IsaacTabsUI.Parent = LocalPlayer:WaitForChild("PlayerGui")
-
-local Main = Instance.new("Frame")
-Main.Size = UDim2.fromOffset(820, 460)
-Main.Position = UDim2.fromScale(0.5, 0.5)
-Main.AnchorPoint = Vector2.new(0.5, 0.5)
-Main.BackgroundColor3 = Color3.fromRGB(15, 15, 18)
-Main.Parent = IsaacTabsUI
-Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 14)
-
-local Top = Instance.new("Frame")
-Top.Size = UDim2.new(1, 0, 0, 40)
-Top.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
-Top.Parent = Main
-Instance.new("UICorner", Top).CornerRadius = UDim.new(0, 14)
-
-local TopMask = Instance.new("Frame")
-TopMask.Size = UDim2.new(1, 0, 0, 14)
-TopMask.Position = UDim2.fromOffset(0, 26)
-TopMask.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
-TopMask.BorderSizePixel = 0
-TopMask.Parent = Top
-
-local Header = Instance.new("TextLabel")
-Header.BackgroundTransparency = 1
-Header.Size = UDim2.new(1, -16, 1, 0)
-Header.Position = UDim2.fromOffset(16, 0)
-Header.Font = Enum.Font.GothamBold
-Header.TextSize = 16
-Header.TextColor3 = Color3.fromRGB(235, 235, 235)
-Header.TextXAlignment = Enum.TextXAlignment.Left
-Header.Text = "lwserboy on discord and f9 for more info."
-Header.Parent = Top
-
-do
-	local dragging = false
-	local dragStart, startPos
-
-	Top.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			dragging = true
-			dragStart = input.Position
-			startPos = Main.Position
-		end
-	end)
-
-	UIS.InputEnded:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			dragging = false
-		end
-	end)
-
-	UIS.InputChanged:Connect(function(input)
-		if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-			local delta = input.Position - dragStart
-			Main.Position = UDim2.new(
-				startPos.X.Scale, startPos.X.Offset + delta.X,
-				startPos.Y.Scale, startPos.Y.Offset + delta.Y
-			)
-		end
-	end)
-end
-
-local Sidebar = Instance.new("Frame")
-Sidebar.Size = UDim2.fromOffset(150, 420)
-Sidebar.Position = UDim2.fromOffset(18, 52)
-Sidebar.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
-Sidebar.Parent = Main
-Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 14)
-
-local SideLayout = Instance.new("UIListLayout")
-SideLayout.Padding = UDim.new(0, 10)
-SideLayout.SortOrder = Enum.SortOrder.LayoutOrder
-SideLayout.Parent = Sidebar
-
-local SidePad = Instance.new("UIPadding")
-SidePad.PaddingTop = UDim.new(0, 16)
-SidePad.PaddingLeft = UDim.new(0, 12)
-SidePad.PaddingRight = UDim.new(0, 12)
-SidePad.Parent = Sidebar
-
-local function makeTabButton(text, order)
-	local b = Instance.new("TextButton")
-	b.LayoutOrder = order
-	b.Size = UDim2.new(1, 0, 0, 44)
-	b.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
-	b.TextColor3 = Color3.fromRGB(240, 240, 240)
-	b.Font = Enum.Font.GothamSemibold
-	b.TextSize = 14
-	b.Text = text
-	b.Parent = Sidebar
-	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 12)
-	return b
-end
-
-local TabAimbotBtn = makeTabButton("Aimbot", 1)
-local TabPlayersBtn = makeTabButton("Players", 2)
-
-local Content = Instance.new("Frame")
-Content.Size = UDim2.fromOffset(620, 420)
-Content.Position = UDim2.fromOffset(180, 52)
-Content.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
-Content.Parent = Main
-Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 14)
-
-local function makePage()
-	local f = Instance.new("Frame")
-	f.Size = UDim2.fromScale(1, 1)
-	f.BackgroundTransparency = 1
-	f.Parent = Content
-	return f
-end
-
-local PageAimbot = makePage()
-local PagePlayers = makePage()
-PagePlayers.Visible = false
-
-local function setTab(which)
-	PageAimbot.Visible = (which == "Aimbot")
-	PagePlayers.Visible = (which == "Players")
-	TabAimbotBtn.BackgroundColor3 = (which == "Aimbot") and Color3.fromRGB(42,42,52) or Color3.fromRGB(28,28,34)
-	TabPlayersBtn.BackgroundColor3 = (which == "Players") and Color3.fromRGB(42,42,52) or Color3.fromRGB(28,28,34)
-end
-
-TabAimbotBtn.MouseButton1Click:Connect(function() setTab("Aimbot") end)
-TabPlayersBtn.MouseButton1Click:Connect(function() setTab("Players") end)
-setTab("Aimbot")
-
-local ALabel = Instance.new("TextLabel")
-ALabel.BackgroundTransparency = 1
-ALabel.Position = UDim2.fromOffset(18, 18)
-ALabel.Size = UDim2.new(1, -36, 0, 24)
-ALabel.Font = Enum.Font.GothamBold
-ALabel.TextSize = 18
-ALabel.TextXAlignment = Enum.TextXAlignment.Left
-ALabel.TextColor3 = Color3.fromRGB(240, 240, 240)
-ALabel.Text = "Aimbot"
-ALabel.Parent = PageAimbot
-
-local AHint = Instance.new("TextLabel")
-AHint.BackgroundTransparency = 1
-AHint.Position = UDim2.fromOffset(18, 52)
-AHint.Size = UDim2.new(1, -36, 0, 40)
-AHint.Font = Enum.Font.Gotham
-AHint.TextSize = 14
-AHint.TextXAlignment = Enum.TextXAlignment.Left
-AHint.TextColor3 = Color3.fromRGB(190, 190, 190)
-AHint.TextWrapped = true
-AHint.Text = "The aimbot tab is in a different window. Move this window around to see the aimbot settings window."
-AHint.Parent = PageAimbot
-
-local Whitelist = {} -- UI-side whitelist list
-local SelectedPlayer: Player? = nil
-
-local function titleLabel(parent, text, y)
-	local t = Instance.new("TextLabel")
-	t.BackgroundTransparency = 1
-	t.Position = UDim2.fromOffset(18, y)
-	t.Size = UDim2.new(1, -36, 0, 24)
-	t.Font = Enum.Font.GothamBold
-	t.TextSize = 18
-	t.TextXAlignment = Enum.TextXAlignment.Left
-	t.TextColor3 = Color3.fromRGB(240, 240, 240)
-	t.Text = text
-	t.Parent = parent
-	return t
-end
-
-titleLabel(PagePlayers, "Players", 18)
-
-local ListPanel = Instance.new("Frame")
-ListPanel.Position = UDim2.fromOffset(18, 60)
-ListPanel.Size = UDim2.fromOffset(360, 330)
-ListPanel.BackgroundColor3 = Color3.fromRGB(22, 22, 28)
-ListPanel.Parent = PagePlayers
-Instance.new("UICorner", ListPanel).CornerRadius = UDim.new(0, 14)
-
-local List = Instance.new("ScrollingFrame")
-List.Position = UDim2.fromOffset(10, 10)
-List.Size = UDim2.new(1, -20, 1, -20)
-List.BackgroundTransparency = 1
-List.ScrollBarThickness = 6
-List.CanvasSize = UDim2.new(0, 0, 0, 0)
-List.Parent = ListPanel
-
-local ListLayout = Instance.new("UIListLayout")
-ListLayout.Padding = UDim.new(0, 10)
-ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-ListLayout.Parent = List
-
-local InfoPanel = Instance.new("Frame")
-InfoPanel.Position = UDim2.fromOffset(390, 60)
-InfoPanel.Size = UDim2.fromOffset(212, 330)
-InfoPanel.BackgroundColor3 = Color3.fromRGB(22, 22, 28)
-InfoPanel.Parent = PagePlayers
-Instance.new("UICorner", InfoPanel).CornerRadius = UDim.new(0, 14)
-
-local Avatar = Instance.new("ImageLabel")
-Avatar.Position = UDim2.fromOffset(14, 14)
-Avatar.Size = UDim2.fromOffset(64, 64)
-Avatar.BackgroundTransparency = 1
-Avatar.Parent = InfoPanel
-
-local InfoText = Instance.new("TextLabel")
-InfoText.Position = UDim2.fromOffset(86, 14)
-InfoText.Size = UDim2.fromOffset(112, 64)
-InfoText.BackgroundTransparency = 1
-InfoText.Font = Enum.Font.Gotham
-InfoText.TextSize = 13
-InfoText.TextXAlignment = Enum.TextXAlignment.Left
-InfoText.TextYAlignment = Enum.TextYAlignment.Top
-InfoText.TextColor3 = Color3.fromRGB(235, 235, 235)
-InfoText.TextWrapped = true
-InfoText.Text = "Select a player"
-InfoText.Parent = InfoPanel
-
-local StatusText = Instance.new("TextLabel")
-StatusText.Position = UDim2.fromOffset(14, 84)
-StatusText.Size = UDim2.fromOffset(184, 18)
-StatusText.BackgroundTransparency = 1
-StatusText.Font = Enum.Font.Gotham
-StatusText.TextSize = 12
-StatusText.TextXAlignment = Enum.TextXAlignment.Left
-StatusText.TextColor3 = Color3.fromRGB(180, 180, 180)
-StatusText.Text = ""
-StatusText.Parent = InfoPanel
-
-local function getHumanoid(plr: Player)
-	local char = plr.Character
-	if not char then return nil end
-	return char:FindFirstChildOfClass("Humanoid")
-end
-
-local function setSpectate(plr: Player?)
-	if plr and plr.Character then
-		local hum = getHumanoid(plr)
-		if hum then
-			Camera.CameraSubject = hum
-			return
-		end
-	end
-	local myHum = getHumanoid(LocalPlayer)
-	if myHum then
-		Camera.CameraSubject = myHum
-	end
-end
-
-local function teleportTo(plr: Player?)
-	if not plr or not plr.Character then return end
-	if not LocalPlayer.Character then return end
-	LocalPlayer.Character:PivotTo(plr.Character:GetPivot())
-end
-
-local function smallAction(text, y, cb)
-	local b = Instance.new("TextButton")
-	b.Position = UDim2.fromOffset(14, y)
-	b.Size = UDim2.fromOffset(184, 34)
-	b.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
-	b.TextColor3 = Color3.fromRGB(240, 240, 240)
-	b.Font = Enum.Font.GothamSemibold
-	b.TextSize = 13
-	b.Text = text
-	b.Parent = InfoPanel
-	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 12)
-	b.MouseButton1Click:Connect(cb)
-	return b
-end
-
-smallAction("Whitelist", 112, function()
-	if not SelectedPlayer then return end
-	Whitelist[SelectedPlayer.UserId] = true
-	StatusText.Text = "Whitelisted: YES"
-end)
-
-smallAction("Unwhitelist", 154, function()
-	if not SelectedPlayer then return end
-	Whitelist[SelectedPlayer.UserId] = nil
-	StatusText.Text = "Whitelisted: NO"
-end)
-
-smallAction("Spectate", 196, function()
-	if not SelectedPlayer then return end
-	setSpectate(SelectedPlayer)
-end)
-
-smallAction("Unspectate", 238, function()
-	setSpectate(nil)
-end)
-
-smallAction("Teleport", 280, function()
-	if not SelectedPlayer then return end
-	teleportTo(SelectedPlayer)
-end)
-
-local function updateSelected(plr: Player?)
-	SelectedPlayer = plr
-	if not plr then
-		Avatar.Image = ""
-		InfoText.Text = "Select a player"
-		StatusText.Text = ""
-		return
-	end
-	local thumb = Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size180x180)
-	Avatar.Image = thumb
-	InfoText.Text = ("Display: %s\nUsername: %s"):format(plr.DisplayName, plr.Name)
-	StatusText.Text = "Whitelisted: " .. (Whitelist[plr.UserId] and "YES" or "NO")
-end
-
-local buttons = {}
-
-local function rebuild()
-	for _, c in ipairs(List:GetChildren()) do
-		if c:IsA("TextButton") then c:Destroy() end
-	end
-	table.clear(buttons)
-
-	for _, plr in ipairs(Players:GetPlayers()) do
-		local btn = Instance.new("TextButton")
-		btn.Size = UDim2.new(1, 0, 0, 42)
-		btn.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
-		btn.TextColor3 = Color3.fromRGB(240, 240, 240)
-		btn.Font = Enum.Font.GothamSemibold
-		btn.TextSize = 14
-		btn.Text = plr.DisplayName
-		btn.Parent = List
-		Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 12)
-
-		btn.MouseButton1Click:Connect(function()
-			for _, b in pairs(buttons) do
-				b.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
-			end
-			btn.BackgroundColor3 = Color3.fromRGB(42, 42, 52)
-			updateSelected(plr)
-		end)
-
-		buttons[plr.UserId] = btn
-	end
-
-	task.defer(function()
-		List.CanvasSize = UDim2.new(0, 0, 0, ListLayout.AbsoluteContentSize.Y + 12)
-	end)
-end
-
-rebuild()
-Players.PlayerAdded:Connect(rebuild)
-Players.PlayerRemoving:Connect(function(plr)
-	if SelectedPlayer == plr then updateSelected(nil) end
-	rebuild()
-end)
-
-UIS.InputBegan:Connect(function(input, gp)
-	if input.KeyCode == Enum.KeyCode.Insert or input.KeyCode == Enum.KeyCode.F4 then
-		IsaacTabsUI.Enabled = not IsaacTabsUI.Enabled
-	end
-end)
-
-print("Fully loaded. lwserboy on dc for more cheats")
+    local function Bb(Cb,Ka,sa)
+        return(function(kd)
+            local function T(Qa)
+                return kd[Qa- -20472]
+            end
+            local A=Instance.new(T(-35190));
+            A.Position=UDim2 .fromOffset(T(-40776),Ka);
+            A.Size=UDim2 .fromOffset(184,T(-30096));
+            A.BackgroundColor3=Color3 .fromRGB(28,28,T(-8278));
+            A.TextColor3=Color3 .fromRGB(240,T(-4739),T(-14667));
+            A.Font=Enum.Font.GothamSemibold;
+            A.TextSize=13;
+            A.Text=Cb;
+            A.Parent=Tc;
+            Instance.new(T(-21346),A).CornerRadius=UDim.new(T(-36845),12);
+            A.MouseButton1Click:Connect(sa)
+            return A
+        end){[-16373]=0,[15733]=240,[-20304]=14,[-14718]='TextButton',[5805]=240,[-9624]=34,[-874]='UICorner',[12194]=34}
+    end
+    Bb('Whitelist',112,function()
+        return(function(bc)
+            local function Xb(S)
+                return bc[S+18861]
+            end
+            if not uc then
+                return
+            end
+            va[uc.UserId]=Xb(-45523);
+            N.Text=Xb(-1508)
+        end){[-26662]=true,[17353]='Whitelisted: YES'}
+    end);
+    Bb('Unwhitelist',154,function()
+        return(function(Fb)
+            local function m(Kb)
+                return Fb[Kb+2586]
+            end
+            if not uc then
+                return
+            end
+            va[uc.UserId]=nil;
+            N.Text=m(13591)
+        end){[16177]='Whitelisted: NO'}
+    end);
+    Bb(Sa(32232),Sa(13112),function()
+        if not(not uc)then
+        else
+            return
+        end
+        Ob(uc)
+    end);
+    Bb('Unspectate',238,function()
+        return(function(ac)
+            local function s_(Ub)
+                return ac[Ub+8707]
+            end
+            Ob(s_(22445))
+        end){[31152]=nil}
+    end);
+    Bb('Teleport',Sa(2354),function()
+        if not(not uc)then
+        else
+            return
+        end
+        _b(uc)
+    end)
+    local function Ac(R)
+        return(function(q)
+            local function kc(I)
+                return q[I+15159]
+            end
+            uc=R
+            if not(not R)then
+            else
+                sb.Image=kc(-37760);
+                o_.Text='Select a player';
+                N.Text=kc(-37933)
+                return
+            end
+            local Qb=Oa:GetUserThumbnailAsync(R.UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size180x180);
+            sb.Image=Qb;
+            o_.Text=('Display: %s\nUsername: %s'):format(R.DisplayName,R.Name);
+            N.Text=kc(-3589)..(va[R.UserId]and kc(9836)or kc(-30582))
+        end){[-22774]='',[-15423]='NO',[11570]='Whitelisted: ',[-22601]='',[24995]='YES'}
+    end
+    local B={}
+    local function Wb()
+        return(function(ec)
+            local function vb(fd)
+                return ec[fd- -15402]
+            end
+            for Yb,Gc in ipairs(ad:GetChildren())do
+                if Gc:IsA(vb(-31931))then
+                    Gc:Destroy()
+                end
+            end
+            table.clear(B)
+            for ic,G in ipairs(Oa:GetPlayers())do
+                local rd=Instance.new(vb(-45991));
+                rd.Size=UDim2 .new(vb(-23815),vb(8286),0,42);
+                rd.BackgroundColor3=Color3 .fromRGB(vb(2622),vb(-15816),34);
+                rd.TextColor3=Color3 .fromRGB(vb(5657),vb(-34028),240);
+                rd.Font=Enum.Font.GothamSemibold;
+                rd.TextSize=vb(-15013);
+                rd.Text=G.DisplayName;
+                rd.Parent=ad;
+                Instance.new(vb(-46959),rd).CornerRadius=UDim.new(0,12);
+                rd.MouseButton1Click:Connect(function()
+                    return(function(oc)
+                        local function l_(Tb)
+                            return oc[Tb- -13009]
+                        end
+                        for y,aa in pairs(B)do
+                            aa.BackgroundColor3=Color3 .fromRGB(l_(16576),l_(-16484),34)
+                        end
+                        rd.BackgroundColor3=Color3 .fromRGB(l_(-11940),42,52);
+                        Ac(G)
+                    end){[-3475]=28,[1069]=42,[29585]=28}
+                end);
+                B[G.UserId]=rd
+            end
+            task.defer(function()
+                return(function(Yc)
+                    local function k(ra)
+                        return Yc[ra-22117]
+                    end
+                    ad.CanvasSize=UDim2 .new(0,0,k(4771),Rb.AbsoluteContentSize.Y+k(48474))
+                end){[-17346]=0,[26357]=12}
+            end)
+        end){[-18626]=240,[-8413]=1,[-16529]='TextButton',[389]=14,[-30589]='TextButton',[21059]=240,[18024]=28,[-414]=28,[-31557]='UICorner',[23688]=0}
+    end
+    Wb();
+    Oa.PlayerAdded:Connect(Wb);
+    Oa.PlayerRemoving:Connect(function(Zc)
+        return(function(ld)
+            local function v(O)
+                return ld[O+4109]
+            end
+            if uc==Zc then
+                Ac(v(21970))
+            end
+            Wb()
+        end){[26079]=nil}
+    end);
+    a_.InputBegan:Connect(function(ma,jd)
+        if ma.KeyCode==Enum.KeyCode.Insert or ma.KeyCode==Enum.KeyCode.F4 then
+            td.Enabled=not td.Enabled
+        end
+    end);
+    print(Sa(25249))
+end)({[1918]='TextLabel',[17319]=60,[11631]=false,[-7812]=235,[-13847]=18,[-17490]=22,[-26196]='Players',[-2447]='PlayerGui',[1570]='Toggle',[-9138]=330,[-22896]=14,[27663]=1,[30691]=12,[19435]=83.670000000000002,[-25731]=25,[-5462]=20,[-25338]='Aimbot',[-28793]=620,[-10051]='TextLabel',[-4797]='Aimbot',[25397]=150,[-32020]='Frame',[9618]=0.29999999999999999,[-6139]=18,[27967]=52,[-18817]='Sticky Lock: OFF',[27869]=-36,[-26708]=0.5,[18127]=10,[-31617]=18,[-22987]='Aimbot Key: ',[-2315]=13,[-9513]=1,[-305]=1,[32479]=false,[-2696]=22,[-21654]='Frame',[5050]=12,[-21790]='Players',[8872]=820,[6882]=0,[-6146]=14,[-19877]=0,[19780]=16,[30183]=1,[-19]='UICorner',[-32743]=180,[-19713]=360,[905]='UICorner',[13728]='RunService',[21852]=1,[21686]=40,[-2187]=52,[-31868]='Smoothness',[-26601]=20,[25947]='Spectate',[6827]=196,[-13694]=1,[-20258]=330,[20171]=1,[31972]=0.5,[5205]=6,[-14435]=0.16700000000000001,[31950]=14,[-24098]=1,[19375]=nil,[-12809]='GuiService',[-32115]='UserInputService',[-12725]=14,[-17073]=0,[26051]=18,[28829]=12,[-3931]=280,[21601]=0,[-7873]='Aimbot',[4894]='TextLabel',[-28585]='Frame',[-23232]=0,[-21332]=16,[-601]=14,[-28029]='lwserboy on discord for more. Insrt/F4 for UI toggle',[3672]=30,[7243]=180,[6885]=1,[7574]=32,[-8614]=360,[13953]=84,[17264]=true,[31374]='UIListLayout',[18469]=0,[-22979]='TextButton',[-19936]='UICorner',[32665]=16,[-7188]='ImageLabel',[16822]=1,[-24034]=20,[-18812]=14,[-24369]=240,[18964]='Fully loaded. lwserboy on dc for more cheats',[30829]='TextLabel',[13243]=-20,[-14871]=0,[-10570]=12,[-21268]=-36,[11979]=460,[5021]='UICorner',[-23286]=112,[-10050]=1,[-18613]=16,[-506]=240,[10859]=35,[-18548]=235,[-4279]=0.5,[25861]='UIListLayout',[-17918]=0,[-40]=240,[31282]=10,[17051]=212,[-13873]=0,[-3516]=1,[17716]=235,[1073]='Players',[13147]=16,[15116]=330,[28776]=420,[2609]=40,[-9709]='TextButton',[-7441]=25,[6219]=22,[8287]=0.5,[-1454]=0,[-29772]=64,[32745]=0,[-22421]=330,[7142]=0,[10230]=18,[-29074]=0,[-28947]=false,[-13065]=14,[4760]=1,[6000]='Frame',[21134]=0.5,[25895]=14,[1304]=0,[-9124]=18,[-31548]='UICorner',[27644]='C'},...)
