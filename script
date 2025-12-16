@@ -292,7 +292,7 @@ Header.Font = Enum.Font.GothamBold
 Header.TextSize = 16
 Header.TextColor3 = Color3.fromRGB(235, 235, 235)
 Header.TextXAlignment = Enum.TextXAlignment.Left
-Header.Text = "lwser boy on discord and f9 for more info."
+Header.Text = "lwserboy on discord and f9 for more info."
 Header.Parent = Top
 
 do
@@ -409,7 +409,7 @@ AHint.TextSize = 14
 AHint.TextXAlignment = Enum.TextXAlignment.Left
 AHint.TextColor3 = Color3.fromRGB(190, 190, 190)
 AHint.TextWrapped = true
-AHint.Text = "The aimbot tab is in a different window."
+AHint.Text = "The aimbot tab is in a different window. Move this window around to see the aimbot settings window."
 AHint.Parent = PageAimbot
 
 local Whitelist = {} -- UI-side whitelist list
