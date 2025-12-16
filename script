@@ -1,0 +1,620 @@
+-- MADE BY ISSAC
+
+getgenv().Aimbot = {
+    Bind = "C",
+    HitPart = "HumanoidRootPart",
+    Time = 0.167,
+    Prediction = { X = 0.12567, Y = 0.08367 },
+    Distance = { Reference = 83.67, MaxMultiplier = 3.67 }
+}
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UIS = game:GetService("UserInputService")
+local GuiService = game:GetService("GuiService")
+
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+local IsToggled = false
+local StickyLock = false
+local AimbotMode = "Toggle" -- Toggle / Hold
+local AimbotHeld = false
+local Target, Cycle
+
+local function GetTarget()
+    local closest, shortest = nil, math.huge
+    local m = UIS:GetMouseLocation()
+    local inset = GuiService:GetGuiInset()
+    local mx, my = m.X, m.Y - inset.Y
+
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= LocalPlayer and p.Character then
+            local hrp = p.Character:FindFirstChild("HumanoidRootPart")
+            local hum = p.Character:FindFirstChildOfClass("Humanoid")
+            if hrp and hum and hum.Health > 0 then
+                local pos, vis = Camera:WorldToViewportPoint(hrp.Position)
+                if vis then
+                    local d = (Vector2.new(pos.X,pos.Y) - Vector2.new(mx,my)).Magnitude
+                    if d < shortest then shortest, closest = d, p end
+                end
+            end
+        end
+    end
+    return closest
+end
+
+local function StartAimbot()
+    if Cycle then Cycle:Disconnect() end
+    Target = nil
+    Cycle = RunService.RenderStepped:Connect(function()
+        if not StickyLock or not Target then Target = GetTarget() end
+        if not Target or not Target.Character then return end
+
+        local hrp = Target.Character:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        local vel = hrp.Velocity
+        local dist = (Camera.CFrame.Position - hrp.Position).Magnitude
+        local mult = math.clamp(dist / getgenv().Aimbot.Distance.Reference, 1, getgenv().Aimbot.Distance.MaxMultiplier)
+
+        local pred = hrp.Position + Vector3.new(
+            vel.X * getgenv().Aimbot.Prediction.X * mult,
+            vel.Y * getgenv().Aimbot.Prediction.Y,
+            vel.Z * getgenv().Aimbot.Prediction.X * mult
+        )
+
+        Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, pred)
+    end)
+end
+
+local function MatchesBind(input)
+    local b = getgenv().Aimbot.Bind
+    if input.UserInputType == Enum.UserInputType.Keyboard then
+        return input.KeyCode.Name == b
+    end
+    return (b == "MouseButton4" and input.UserInputType == Enum.UserInputType.MouseButton4)
+        or (b == "MouseButton5" and input.UserInputType == Enum.UserInputType.MouseButton5)
+end
+
+local UI = Instance.new("ScreenGui", LocalPlayer.PlayerGui)
+UI.ResetOnSpawn = false
+
+local Main = Instance.new("Frame", UI)
+Main.Size = UDim2.fromOffset(360, 360)
+Main.Position = UDim2.fromScale(0.5, 0.5)
+Main.AnchorPoint = Vector2.new(0.5,0.5)
+Main.BackgroundColor3 = Color3.fromRGB(18,18,18)
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0,12)
+
+local Top = Instance.new("Frame", Main)
+Top.Size = UDim2.new(1,0,0,36)
+Top.BackgroundColor3 = Color3.fromRGB(25,25,25)
+Instance.new("UICorner", Top).CornerRadius = UDim.new(0,12)
+
+local Title = Instance.new("TextLabel", Top)
+Title.Size = UDim2.fromScale(1,1)
+Title.BackgroundTransparency = 1
+Title.Text = "Aimbot Settings"
+Title.TextColor3 = Color3.new(1,1,1)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 16
+
+local dragging, dragStart, startPos
+Top.InputBegan:Connect(function(i)
+    if i.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = i.Position
+        startPos = Main.Position
+    end
+end)
+UIS.InputEnded:Connect(function(i)
+    if i.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
+end)
+UIS.InputChanged:Connect(function(i)
+    if dragging and i.UserInputType == Enum.UserInputType.MouseMovement then
+        local d = i.Position - dragStart
+        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset+d.X, startPos.Y.Scale, startPos.Y.Offset+d.Y)
+    end
+end)
+
+local function slider(text,y,min,max,get,set)
+    local lbl = Instance.new("TextLabel", Main)
+    lbl.Position = UDim2.fromOffset(16,y)
+    lbl.Size = UDim2.fromOffset(330,20)
+    lbl.BackgroundTransparency = 1
+    lbl.TextColor3 = Color3.new(1,1,1)
+    lbl.Font = Enum.Font.Gotham
+    lbl.TextSize = 14
+    lbl.TextXAlignment = "Left"
+
+    local bar = Instance.new("Frame", Main)
+    bar.Position = UDim2.fromOffset(16,y+22)
+    bar.Size = UDim2.fromOffset(330,6)
+    bar.BackgroundColor3 = Color3.fromRGB(60,60,60)
+    Instance.new("UICorner", bar).CornerRadius = UDim.new(1,0)
+
+    local knob = Instance.new("Frame", bar)
+    knob.Size = UDim2.fromOffset(14,14)
+    knob.AnchorPoint = Vector2.new(0.5,0.5)
+    knob.BackgroundColor3 = Color3.fromRGB(220,220,220)
+    Instance.new("UICorner", knob).CornerRadius = UDim.new(1,0)
+
+    local drag=false
+    local function update()
+        local v=get()
+        knob.Position = UDim2.fromScale((v-min)/(max-min),0.5)
+        lbl.Text = string.format("%s: %.3f",text,v)
+    end
+    update()
+
+    knob.InputBegan:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 then drag=true end end)
+    UIS.InputEnded:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 then drag=false end end)
+    UIS.InputChanged:Connect(function(i)
+        if drag and i.UserInputType==Enum.UserInputType.MouseMovement then
+            local m=UIS:GetMouseLocation()
+            local p=math.clamp((m.X-bar.AbsolutePosition.X)/bar.AbsoluteSize.X,0,1)
+            set(min+(max-min)*p)
+            update()
+        end
+    end)
+end
+
+slider("Prediction X",50,0,0.5,function()return getgenv().Aimbot.Prediction.X end,function(v)getgenv().Aimbot.Prediction.X=v end)
+slider("Prediction Y",100,0,0.5,function()return getgenv().Aimbot.Prediction.Y end,function(v)getgenv().Aimbot.Prediction.Y=v end)
+slider("Smoothness",150,0,0.3,function()return getgenv().Aimbot.Time end,function(v)getgenv().Aimbot.Time=v end)
+
+local StickyBtn = Instance.new("TextButton", Main)
+StickyBtn.Position = UDim2.fromOffset(16,200)
+StickyBtn.Size = UDim2.fromOffset(330,30)
+StickyBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+StickyBtn.TextColor3 = Color3.new(1,1,1)
+StickyBtn.Font = Enum.Font.Gotham
+StickyBtn.TextSize = 14
+StickyBtn.Text = "Sticky Lock: OFF"
+Instance.new("UICorner", StickyBtn)
+StickyBtn.MouseButton1Click:Connect(function()
+    StickyLock = not StickyLock
+    Target=nil
+    StickyBtn.Text="Sticky Lock: "..(StickyLock and "ON" or "OFF")
+end)
+
+local ModeBtn = Instance.new("TextButton", Main)
+ModeBtn.Position = UDim2.fromOffset(16,240)
+ModeBtn.Size = UDim2.fromOffset(330,30)
+ModeBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+ModeBtn.TextColor3 = Color3.new(1,1,1)
+ModeBtn.Font = Enum.Font.Gotham
+ModeBtn.TextSize = 14
+ModeBtn.Text = "Aimbot Mode: TOGGLE"
+Instance.new("UICorner", ModeBtn)
+ModeBtn.MouseButton1Click:Connect(function()
+    AimbotMode = (AimbotMode=="Toggle") and "Hold" or "Toggle"
+    ModeBtn.Text="Aimbot Mode: "..string.upper(AimbotMode)
+end)
+
+local KeyBox = Instance.new("TextBox", Main)
+KeyBox.Position = UDim2.fromOffset(16,280)
+KeyBox.Size = UDim2.fromOffset(330,32)
+KeyBox.BackgroundColor3 = Color3.fromRGB(35,35,35)
+KeyBox.TextColor3 = Color3.new(1,1,1)
+KeyBox.Font = Enum.Font.Gotham
+KeyBox.TextSize = 14
+KeyBox.Text = "Aimbot Key: "..getgenv().Aimbot.Bind
+KeyBox.ClearTextOnFocus=false
+Instance.new("UICorner", KeyBox)
+
+local waiting=false
+KeyBox.Focused:Connect(function()
+    waiting=true
+    KeyBox.Text="Press key or mouse button..."
+end)
+
+UIS.InputBegan:Connect(function(input,gp)
+    if input.KeyCode == Enum.KeyCode.Insert or input.KeyCode == Enum.KeyCode.F4 then
+        UI.Enabled = not UI.Enabled
+        return
+    end
+
+    if waiting then
+        if input.UserInputType==Enum.UserInputType.Keyboard then
+            getgenv().Aimbot.Bind=input.KeyCode.Name
+        elseif input.UserInputType==Enum.UserInputType.MouseButton4 then
+            getgenv().Aimbot.Bind="MouseButton4"
+        elseif input.UserInputType==Enum.UserInputType.MouseButton5 then
+            getgenv().Aimbot.Bind="MouseButton5"
+        else return end
+        KeyBox.Text="Aimbot Key: "..getgenv().Aimbot.Bind
+        waiting=false
+        KeyBox:ReleaseFocus()
+        return
+    end
+
+    if gp then return end
+    if MatchesBind(input) then
+        if AimbotMode=="Toggle" then
+            if not IsToggled then StartAimbot() else if Cycle then Cycle:Disconnect() end Target=nil end
+            IsToggled=not IsToggled
+        elseif AimbotMode=="Hold" and not AimbotHeld then
+            StartAimbot()
+            AimbotHeld=true
+        end
+    end
+end)
+
+UIS.InputEnded:Connect(function(input)
+    if AimbotMode=="Hold" and MatchesBind(input) then
+        if Cycle then Cycle:Disconnect() end
+        Target=nil
+        AimbotHeld=false
+    end
+end)
+
+print("lwserboy on discord for more. Insrt/F4 for UI toggle")
+
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+local IsaacTabsUI = Instance.new("ScreenGui")
+IsaacTabsUI.Name = "IsaacTabbedUI"
+IsaacTabsUI.ResetOnSpawn = false
+IsaacTabsUI.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+local Main = Instance.new("Frame")
+Main.Size = UDim2.fromOffset(820, 460)
+Main.Position = UDim2.fromScale(0.5, 0.5)
+Main.AnchorPoint = Vector2.new(0.5, 0.5)
+Main.BackgroundColor3 = Color3.fromRGB(15, 15, 18)
+Main.Parent = IsaacTabsUI
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 14)
+
+local Top = Instance.new("Frame")
+Top.Size = UDim2.new(1, 0, 0, 40)
+Top.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
+Top.Parent = Main
+Instance.new("UICorner", Top).CornerRadius = UDim.new(0, 14)
+
+local TopMask = Instance.new("Frame")
+TopMask.Size = UDim2.new(1, 0, 0, 14)
+TopMask.Position = UDim2.fromOffset(0, 26)
+TopMask.BackgroundColor3 = Color3.fromRGB(20, 20, 24)
+TopMask.BorderSizePixel = 0
+TopMask.Parent = Top
+
+local Header = Instance.new("TextLabel")
+Header.BackgroundTransparency = 1
+Header.Size = UDim2.new(1, -16, 1, 0)
+Header.Position = UDim2.fromOffset(16, 0)
+Header.Font = Enum.Font.GothamBold
+Header.TextSize = 16
+Header.TextColor3 = Color3.fromRGB(235, 235, 235)
+Header.TextXAlignment = Enum.TextXAlignment.Left
+Header.Text = "lwser boy on discord and f9 for more info."
+Header.Parent = Top
+
+do
+	local dragging = false
+	local dragStart, startPos
+
+	Top.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+			dragStart = input.Position
+			startPos = Main.Position
+		end
+	end)
+
+	UIS.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = false
+		end
+	end)
+
+	UIS.InputChanged:Connect(function(input)
+		if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local delta = input.Position - dragStart
+			Main.Position = UDim2.new(
+				startPos.X.Scale, startPos.X.Offset + delta.X,
+				startPos.Y.Scale, startPos.Y.Offset + delta.Y
+			)
+		end
+	end)
+end
+
+local Sidebar = Instance.new("Frame")
+Sidebar.Size = UDim2.fromOffset(150, 420)
+Sidebar.Position = UDim2.fromOffset(18, 52)
+Sidebar.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+Sidebar.Parent = Main
+Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 14)
+
+local SideLayout = Instance.new("UIListLayout")
+SideLayout.Padding = UDim.new(0, 10)
+SideLayout.SortOrder = Enum.SortOrder.LayoutOrder
+SideLayout.Parent = Sidebar
+
+local SidePad = Instance.new("UIPadding")
+SidePad.PaddingTop = UDim.new(0, 16)
+SidePad.PaddingLeft = UDim.new(0, 12)
+SidePad.PaddingRight = UDim.new(0, 12)
+SidePad.Parent = Sidebar
+
+local function makeTabButton(text, order)
+	local b = Instance.new("TextButton")
+	b.LayoutOrder = order
+	b.Size = UDim2.new(1, 0, 0, 44)
+	b.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
+	b.TextColor3 = Color3.fromRGB(240, 240, 240)
+	b.Font = Enum.Font.GothamSemibold
+	b.TextSize = 14
+	b.Text = text
+	b.Parent = Sidebar
+	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 12)
+	return b
+end
+
+local TabAimbotBtn = makeTabButton("Aimbot", 1)
+local TabPlayersBtn = makeTabButton("Players", 2)
+
+local Content = Instance.new("Frame")
+Content.Size = UDim2.fromOffset(620, 420)
+Content.Position = UDim2.fromOffset(180, 52)
+Content.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+Content.Parent = Main
+Instance.new("UICorner", Content).CornerRadius = UDim.new(0, 14)
+
+local function makePage()
+	local f = Instance.new("Frame")
+	f.Size = UDim2.fromScale(1, 1)
+	f.BackgroundTransparency = 1
+	f.Parent = Content
+	return f
+end
+
+local PageAimbot = makePage()
+local PagePlayers = makePage()
+PagePlayers.Visible = false
+
+local function setTab(which)
+	PageAimbot.Visible = (which == "Aimbot")
+	PagePlayers.Visible = (which == "Players")
+	TabAimbotBtn.BackgroundColor3 = (which == "Aimbot") and Color3.fromRGB(42,42,52) or Color3.fromRGB(28,28,34)
+	TabPlayersBtn.BackgroundColor3 = (which == "Players") and Color3.fromRGB(42,42,52) or Color3.fromRGB(28,28,34)
+end
+
+TabAimbotBtn.MouseButton1Click:Connect(function() setTab("Aimbot") end)
+TabPlayersBtn.MouseButton1Click:Connect(function() setTab("Players") end)
+setTab("Aimbot")
+
+local ALabel = Instance.new("TextLabel")
+ALabel.BackgroundTransparency = 1
+ALabel.Position = UDim2.fromOffset(18, 18)
+ALabel.Size = UDim2.new(1, -36, 0, 24)
+ALabel.Font = Enum.Font.GothamBold
+ALabel.TextSize = 18
+ALabel.TextXAlignment = Enum.TextXAlignment.Left
+ALabel.TextColor3 = Color3.fromRGB(240, 240, 240)
+ALabel.Text = "Aimbot"
+ALabel.Parent = PageAimbot
+
+local AHint = Instance.new("TextLabel")
+AHint.BackgroundTransparency = 1
+AHint.Position = UDim2.fromOffset(18, 52)
+AHint.Size = UDim2.new(1, -36, 0, 40)
+AHint.Font = Enum.Font.Gotham
+AHint.TextSize = 14
+AHint.TextXAlignment = Enum.TextXAlignment.Left
+AHint.TextColor3 = Color3.fromRGB(190, 190, 190)
+AHint.TextWrapped = true
+AHint.Text = "The aimbot tab is in a different window."
+AHint.Parent = PageAimbot
+
+local Whitelist = {} -- UI-side whitelist list
+local SelectedPlayer: Player? = nil
+
+local function titleLabel(parent, text, y)
+	local t = Instance.new("TextLabel")
+	t.BackgroundTransparency = 1
+	t.Position = UDim2.fromOffset(18, y)
+	t.Size = UDim2.new(1, -36, 0, 24)
+	t.Font = Enum.Font.GothamBold
+	t.TextSize = 18
+	t.TextXAlignment = Enum.TextXAlignment.Left
+	t.TextColor3 = Color3.fromRGB(240, 240, 240)
+	t.Text = text
+	t.Parent = parent
+	return t
+end
+
+titleLabel(PagePlayers, "Players", 18)
+
+local ListPanel = Instance.new("Frame")
+ListPanel.Position = UDim2.fromOffset(18, 60)
+ListPanel.Size = UDim2.fromOffset(360, 330)
+ListPanel.BackgroundColor3 = Color3.fromRGB(22, 22, 28)
+ListPanel.Parent = PagePlayers
+Instance.new("UICorner", ListPanel).CornerRadius = UDim.new(0, 14)
+
+local List = Instance.new("ScrollingFrame")
+List.Position = UDim2.fromOffset(10, 10)
+List.Size = UDim2.new(1, -20, 1, -20)
+List.BackgroundTransparency = 1
+List.ScrollBarThickness = 6
+List.CanvasSize = UDim2.new(0, 0, 0, 0)
+List.Parent = ListPanel
+
+local ListLayout = Instance.new("UIListLayout")
+ListLayout.Padding = UDim.new(0, 10)
+ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+ListLayout.Parent = List
+
+local InfoPanel = Instance.new("Frame")
+InfoPanel.Position = UDim2.fromOffset(390, 60)
+InfoPanel.Size = UDim2.fromOffset(212, 330)
+InfoPanel.BackgroundColor3 = Color3.fromRGB(22, 22, 28)
+InfoPanel.Parent = PagePlayers
+Instance.new("UICorner", InfoPanel).CornerRadius = UDim.new(0, 14)
+
+local Avatar = Instance.new("ImageLabel")
+Avatar.Position = UDim2.fromOffset(14, 14)
+Avatar.Size = UDim2.fromOffset(64, 64)
+Avatar.BackgroundTransparency = 1
+Avatar.Parent = InfoPanel
+
+local InfoText = Instance.new("TextLabel")
+InfoText.Position = UDim2.fromOffset(86, 14)
+InfoText.Size = UDim2.fromOffset(112, 64)
+InfoText.BackgroundTransparency = 1
+InfoText.Font = Enum.Font.Gotham
+InfoText.TextSize = 13
+InfoText.TextXAlignment = Enum.TextXAlignment.Left
+InfoText.TextYAlignment = Enum.TextYAlignment.Top
+InfoText.TextColor3 = Color3.fromRGB(235, 235, 235)
+InfoText.TextWrapped = true
+InfoText.Text = "Select a player"
+InfoText.Parent = InfoPanel
+
+local StatusText = Instance.new("TextLabel")
+StatusText.Position = UDim2.fromOffset(14, 84)
+StatusText.Size = UDim2.fromOffset(184, 18)
+StatusText.BackgroundTransparency = 1
+StatusText.Font = Enum.Font.Gotham
+StatusText.TextSize = 12
+StatusText.TextXAlignment = Enum.TextXAlignment.Left
+StatusText.TextColor3 = Color3.fromRGB(180, 180, 180)
+StatusText.Text = ""
+StatusText.Parent = InfoPanel
+
+local function getHumanoid(plr: Player)
+	local char = plr.Character
+	if not char then return nil end
+	return char:FindFirstChildOfClass("Humanoid")
+end
+
+local function setSpectate(plr: Player?)
+	if plr and plr.Character then
+		local hum = getHumanoid(plr)
+		if hum then
+			Camera.CameraSubject = hum
+			return
+		end
+	end
+	local myHum = getHumanoid(LocalPlayer)
+	if myHum then
+		Camera.CameraSubject = myHum
+	end
+end
+
+local function teleportTo(plr: Player?)
+	if not plr or not plr.Character then return end
+	if not LocalPlayer.Character then return end
+	LocalPlayer.Character:PivotTo(plr.Character:GetPivot())
+end
+
+local function smallAction(text, y, cb)
+	local b = Instance.new("TextButton")
+	b.Position = UDim2.fromOffset(14, y)
+	b.Size = UDim2.fromOffset(184, 34)
+	b.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
+	b.TextColor3 = Color3.fromRGB(240, 240, 240)
+	b.Font = Enum.Font.GothamSemibold
+	b.TextSize = 13
+	b.Text = text
+	b.Parent = InfoPanel
+	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 12)
+	b.MouseButton1Click:Connect(cb)
+	return b
+end
+
+smallAction("Whitelist", 112, function()
+	if not SelectedPlayer then return end
+	Whitelist[SelectedPlayer.UserId] = true
+	StatusText.Text = "Whitelisted: YES"
+end)
+
+smallAction("Unwhitelist", 154, function()
+	if not SelectedPlayer then return end
+	Whitelist[SelectedPlayer.UserId] = nil
+	StatusText.Text = "Whitelisted: NO"
+end)
+
+smallAction("Spectate", 196, function()
+	if not SelectedPlayer then return end
+	setSpectate(SelectedPlayer)
+end)
+
+smallAction("Unspectate", 238, function()
+	setSpectate(nil)
+end)
+
+smallAction("Teleport", 280, function()
+	if not SelectedPlayer then return end
+	teleportTo(SelectedPlayer)
+end)
+
+local function updateSelected(plr: Player?)
+	SelectedPlayer = plr
+	if not plr then
+		Avatar.Image = ""
+		InfoText.Text = "Select a player"
+		StatusText.Text = ""
+		return
+	end
+	local thumb = Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size180x180)
+	Avatar.Image = thumb
+	InfoText.Text = ("Display: %s\nUsername: %s"):format(plr.DisplayName, plr.Name)
+	StatusText.Text = "Whitelisted: " .. (Whitelist[plr.UserId] and "YES" or "NO")
+end
+
+local buttons = {}
+
+local function rebuild()
+	for _, c in ipairs(List:GetChildren()) do
+		if c:IsA("TextButton") then c:Destroy() end
+	end
+	table.clear(buttons)
+
+	for _, plr in ipairs(Players:GetPlayers()) do
+		local btn = Instance.new("TextButton")
+		btn.Size = UDim2.new(1, 0, 0, 42)
+		btn.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
+		btn.TextColor3 = Color3.fromRGB(240, 240, 240)
+		btn.Font = Enum.Font.GothamSemibold
+		btn.TextSize = 14
+		btn.Text = plr.DisplayName
+		btn.Parent = List
+		Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 12)
+
+		btn.MouseButton1Click:Connect(function()
+			for _, b in pairs(buttons) do
+				b.BackgroundColor3 = Color3.fromRGB(28, 28, 34)
+			end
+			btn.BackgroundColor3 = Color3.fromRGB(42, 42, 52)
+			updateSelected(plr)
+		end)
+
+		buttons[plr.UserId] = btn
+	end
+
+	task.defer(function()
+		List.CanvasSize = UDim2.new(0, 0, 0, ListLayout.AbsoluteContentSize.Y + 12)
+	end)
+end
+
+rebuild()
+Players.PlayerAdded:Connect(rebuild)
+Players.PlayerRemoving:Connect(function(plr)
+	if SelectedPlayer == plr then updateSelected(nil) end
+	rebuild()
+end)
+
+UIS.InputBegan:Connect(function(input, gp)
+	if input.KeyCode == Enum.KeyCode.Insert or input.KeyCode == Enum.KeyCode.F4 then
+		IsaacTabsUI.Enabled = not IsaacTabsUI.Enabled
+	end
+end)
+
+print("Fully loaded. lwserboy on dc for more cheats")
