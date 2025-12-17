@@ -1,725 +1,1314 @@
--- Made by Issac lwserboy on discord.
+-- This script was generated using the MoonVeil Obfuscator v1.4.5 [https://moonveil.cc]
 
-return(function(Sb,...)
-    local function Sa(Db)
-        return Sb[Db+-6285]
+return(function(Jd,...)
+    local function if_(K)
+        return Jd[K- -445]
     end
-    getgenv().Aimbot={Bind=Sa(33929),HitPart='HumanoidRootPart',Time=Sa(-8150),Prediction={X=0.12567,Y=0.083669999999999994},Distance={Reference=Sa(25720),MaxMultiplier=3.6699999999999999}}
-    local z,Ha,Ba,ed=game:GetService'Players',game:GetService(Sa(20013)),game:GetService'UserInputService',game:GetService(Sa(-6524))
-    local fa_,za,f_,h,pd,Sc=z.LocalPlayer,workspace.CurrentCamera,Sa(38764),false,Sa(7855),false
-    local Vc,od
-    local function Dc()
-        return(function(bd)
-            local function Z(mb)
-                return bd[mb+26780]
+    getgenv().Aimbot={Bind='C',HitPart=if_(-12927),Time=if_(-4240),Prediction={X=0.12567,Y=0.083669999999999994},Distance={Reference=if_(-2202),MaxMultiplier=if_(-21863)}}
+    local Uc,Q,pc,nb,cc={},{EnemyHealthStop=1,ResetOnDeath=if_(24849),Colors={Enemy=Color3 .fromRGB(if_(-30548),60,if_(-26700)),Ally=Color3 .fromRGB(if_(4040),if_(7291),if_(-29081))}},{Enabled=false,Scale=2,OriginalSizes={},OriginalTransparency={},OriginalPartType={},OriginalJoints={}},{Enabled=if_(6279)},game:GetService(if_(-13552))
+    local function sd()
+        pcall(function()
+            return(function(Gc)
+                local function Rc(ce)
+                    return Gc[ce-27081]
+                end
+                cc:CreateCollisionGroup(Rc(53450))
+            end){[26369]='NoCollideHBE'}
+        end)
+    end
+    sd()
+    local Ta,qd,Ed,xa=game:GetService'Players',game:GetService'RunService',game:GetService'UserInputService',game:GetService(if_(-18435))
+    local Xa,Jb,ea,a_,Tc,bd=Ta.LocalPlayer,workspace.CurrentCamera,if_(-6314),if_(22958),'Toggle',false
+    local Id,qe
+    local function Ud(Z)
+        return(function(Ia)
+            local function sf(j)
+                return Ia[j- -27052]
             end
-            local cc,jc,ob,nd=Z(-1635),math.huge,Ba:GetMouseLocation(),ed:GetGuiInset()
-            local ib,g=ob.X,ob.Y-nd.Y
-            for cb,Uc in ipairs(z:GetPlayers())do
-                if not(Uc~=fa_ and Uc.Character)then
+            local Qc=Z.Character
+            if not(not Qc)then
+            else
+                return sf(2593)
+            end
+            return Qc:FindFirstChildOfClass'Humanoid'
+        end){[29645]=nil}
+    end
+    local function Jc()
+        return(function(Df)
+            local function i_(Oc)
+                return Df[Oc-19350]
+            end
+            local E,kd,s_,Fb=nil,math.huge,Ed:GetMouseLocation(),xa:GetGuiInset()
+            local ug,la=s_.X,s_.Y-Fb.Y
+            for We,ab in ipairs(Ta:GetPlayers())do
+                if not(ab~=Xa and ab.Character)then
                 else
-                    local Jc,hc=Uc.Character:FindFirstChild(Z(-22662)),Uc.Character:FindFirstChildOfClass(Z(-32107))
-                    if not(Jc and hc and hc.Health>0)then
+                    if not(Uc[ab.UserId])then
                     else
-                        local ca,H=za:WorldToViewportPoint(Jc.Position)
-                        if not(H)then
-                        else
-                            local xc=(Vector2 .new(ca.X,ca.Y)-Vector2 .new(ib,g)).Magnitude
-                            if xc<jc then
-                                jc,cc=xc,Uc
+                        continue
+                    end
+                    local ac,Fd=ab.Character:FindFirstChild(i_(42323)),ab.Character:FindFirstChildOfClass'Humanoid'
+                    if ac and Fd and Fd.Health>Q.EnemyHealthStop then
+                        local Y,na=Jb:WorldToViewportPoint(ac.Position)
+                        if na then
+                            local vb=(Vector2 .new(Y.X,Y.Y)-Vector2 .new(ug,la)).Magnitude
+                            if vb<kd then
+                                kd,E=vb,ab
                             end
                         end
                     end
                 end
             end
-            return cc
-        end){[4118]='HumanoidRootPart',[25145]=nil,[-5327]='Humanoid'}
+            return E
+        end){[22973]='HumanoidRootPart'}
     end
-    local function db()
-        if od then
-            od:Disconnect()
-        end
-        Vc=nil;
-        od=Ha.RenderStepped:Connect(function()
-            return(function(Nc)
-                local function Xa(wc)
-                    return Nc[wc+-14097]
-                end
-                if not h or not Vc then
-                    Vc=Dc()
-                end
-                if not Vc or not Vc.Character then
-                    return
-                end
-                local Ma=Vc.Character:FindFirstChild'HumanoidRootPart'
-                if not Ma then
-                    return
-                end
-                local qa,Lc=Ma.Velocity,(za.CFrame.Position-Ma.Position).Magnitude
-                local t_=math.clamp(Lc/getgenv().Aimbot.Distance.Reference,Xa(11080),getgenv().Aimbot.Distance.MaxMultiplier)
-                local la=Ma.Position+Vector3 .new(qa.X*getgenv().Aimbot.Prediction.X*t_,qa.Y*getgenv().Aimbot.Prediction.Y,qa.Z*getgenv().Aimbot.Prediction.X*t_);
-                za.CFrame=CFrame.lookAt(za.CFrame.Position,la)
-            end){[-3017]=1}
-        end)
-    end
-    local function Aa(U)
-        local F=getgenv().Aimbot.Bind
-        if U.UserInputType==Enum.UserInputType.Keyboard then
-            return U.KeyCode.Name==F
-        end
-        return(F=='MouseButton4'and U.UserInputType==Enum.UserInputType.MouseButton4)or(F=='MouseButton5'and U.UserInputType==Enum.UserInputType.MouseButton5)
-    end
-    local lb=Instance.new('ScreenGui',fa_.PlayerGui);
-    lb.ResetOnSpawn=false
-    local X=Instance.new(Sa(-22300),lb);
-    X.Size=UDim2 .fromOffset(360,Sa(-13428));
-    X.Position=UDim2 .fromScale(0.5,Sa(14572));
-    X.AnchorPoint=Vector2 .new(Sa(2006),0.5);
-    X.BackgroundColor3=Color3 .fromRGB(18,18,18);
-    Instance.new(Sa(7190),X).CornerRadius=UDim.new(0,Sa(11335))
-    local Ea=Instance.new('Frame',X);
-    Ea.Size=UDim2 .new(Sa(2769),0,Sa(4831),36);
-    Ea.BackgroundColor3=Color3 .fromRGB(Sa(-19446),25,Sa(-1156));
-    Instance.new(Sa(6266),Ea).CornerRadius=UDim.new(Sa(24754),12)
-    local Vb=Instance.new(Sa(8203),Ea);
-    Vb.Size=UDim2 .fromScale(1,1);
-    Vb.BackgroundTransparency=1;
-    Vb.Text='Aimbot Settings';
-    Vb.TextColor3=Color3 .new(1,Sa(28137),Sa(5980));
-    Vb.Font=Enum.Font.GothamBold;
-    Vb.TextSize=Sa(38950)
-    local n_,fb,fc;
-    Ea.InputBegan:Connect(function(kb)
-        return(function(Mc)
-            local function Bc(id)
-                return Mc[id-22720]
+    local function lg()
+        return(function(Cf)
+            local function Nc(Pe)
+                return Cf[Pe+25475]
             end
-            if not(kb.UserInputType==Enum.UserInputType.MouseButton1)then
-            else
-                n_=Bc(49386);
-                fb=kb.Position;
-                fc=X.Position
+            if qe then
+                qe:Disconnect()
             end
-        end){[26666]=true}
-    end);
-    Ba.InputEnded:Connect(function(E)
-        return(function(Qc)
-            local function r_(wa)
-                return Qc[wa- -3386]
-            end
-            if E.UserInputType==Enum.UserInputType.MouseButton1 then
-                n_=r_(-4997)
-            end
-        end){[-1611]=false}
-    end);
-    Ba.InputChanged:Connect(function(sd)
-        if n_ and sd.UserInputType==Enum.UserInputType.MouseMovement then
-            local cd=sd.Position-fb;
-            X.Position=UDim2 .new(fc.X.Scale,fc.X.Offset+cd.X,fc.Y.Scale,fc.Y.Offset+cd.Y)
-        end
-    end)
-    local function W(ga,nc,md,rc,_a,eb)
-        return(function(Jb)
-            local function c(Q)
-                return Jb[Q-18336]
-            end
-            local Ib=Instance.new(c(18946),X);
-            Ib.Position=UDim2 .fromOffset(c(38585),nc);
-            Ib.Size=UDim2 .fromOffset(330,20);
-            Ib.BackgroundTransparency=1;
-            Ib.TextColor3=Color3 .new(1,c(7036),c(39442));
-            Ib.Font=Enum.Font.Gotham;
-            Ib.TextSize=14;
-            Ib.TextXAlignment=c(43193)
-            local Na=Instance.new('Frame',X);
-            Na.Position=UDim2 .fromOffset(16,nc+c(34465));
-            Na.Size=UDim2 .fromOffset(c(3907),6);
-            Na.BackgroundColor3=Color3 .fromRGB(60,c(8783),c(-7535));
-            Instance.new(c(-9633),Na).CornerRadius=UDim.new(1,0)
-            local _c=Instance.new(c(34781),Na);
-            _c.Size=UDim2 .fromOffset(c(42373),14);
-            _c.AnchorPoint=Vector2 .new(0.5,0.5);
-            _c.BackgroundColor3=Color3 .fromRGB(c(-9446),c(29400),c(-11231));
-            Instance.new('UICorner',_c).CornerRadius=UDim.new(c(-3644),0)
-            local Da=c(20789)
-            local function w_()
-                return(function(xb)
-                    local function da(mc)
-                        return xb[mc+-14665]
+            Id=Nc(-35197);
+            qe=qd.RenderStepped:Connect(function()
+                return(function(qf)
+                    local function xb(wd)
+                        return qf[wd- -17504]
                     end
-                    local Fa=_a();
-                    _c.Position=UDim2 .fromScale((Fa-md)/(rc-md),da(8378));
-                    Ib.Text=string.format(da(2425),ga,Fa)
-                end){[-6287]=0.5,[-12240]='%s: %.3f'}
-            end
-            w_();
-            _c.InputBegan:Connect(function(ba)
-                if not(ba.UserInputType==Enum.UserInputType.MouseButton1)then
-                else
-                    Da=true
-                end
-            end);
-            Ba.InputEnded:Connect(function(yc)
-                return(function(Hb)
-                    local function ab(J)
-                        return Hb[J+-27077]
+                    if not a_ or not Id then
+                        Id=Jc()
                     end
-                    if yc.UserInputType==Enum.UserInputType.MouseButton1 then
-                        Da=ab(49678)
-                    end
-                end){[22601]=false}
-            end);
-            Ba.InputChanged:Connect(function(Mb)
-                if Da and Mb.UserInputType==Enum.UserInputType.MouseMovement then
-                    local zb=Ba:GetMouseLocation()
-                    local Y=math.clamp((zb.X-Na.AbsolutePosition.X)/Na.AbsoluteSize.X,0,1);
-                    eb(md+(rc-md)*Y);
-                    w_()
-                end
-            end)
-        end){[20249]=16,[21106]=1,[24857]='Left',[-11300]=1,[-29567]=220,[2453]=false,[-25871]=60,[11064]=220,[16129]=22,[16445]='Frame',[-27782]=220,[-27969]='UICorner',[-14429]=330,[24037]=14,[-9553]=60,[610]='TextLabel',[-21980]=1}
-    end
-    W('Prediction X',50,0,Sa(27419),function()
-        return getgenv().Aimbot.Prediction.X
-    end,function(ha)
-        getgenv().Aimbot.Prediction.X=ha
-    end);
-    W('Prediction Y',100,0,Sa(38257),function()
-        return getgenv().Aimbot.Prediction.Y
-    end,function(Pb)
-        getgenv().Aimbot.Prediction.Y=Pb
-    end);
-    W(Sa(-25583),Sa(31682),Sa(-22789),Sa(15903),function()
-        return getgenv().Aimbot.Time
-    end,function(Ra)
-        getgenv().Aimbot.Time=Ra
-    end)
-    local dc=Instance.new(Sa(-16694),X);
-    dc.Position=UDim2 .fromOffset(Sa(-12328),200);
-    dc.Size=UDim2 .fromOffset(Sa(-16136),Sa(9957));
-    dc.BackgroundColor3=Color3 .fromRGB(40,Sa(27971),40);
-    dc.TextColor3=Color3 .new(Sa(-17813),1,1);
-    dc.Font=Enum.Font.Gotham;
-    dc.TextSize=Sa(-6780);
-    dc.Text=Sa(-12532);
-    Instance.new(Sa(-25263),dc);
-    dc.MouseButton1Click:Connect(function()
-        return(function(Ia)
-            local function Lb(M)
-                return Ia[M- -29406]
-            end
-            h=not h;
-            Vc=Lb(-30301);
-            dc.Text=Lb(-37777)..(h and Lb(-53295)or'OFF')
-        end){[-895]=nil,[-23889]='ON',[-8371]='Sticky Lock: '}
-    end)
-    local K=Instance.new(Sa(-3424),X);
-    K.Position=UDim2 .fromOffset(Sa(-15047),240);
-    K.Size=UDim2 .fromOffset(Sa(-2853),30);
-    K.BackgroundColor3=Color3 .fromRGB(40,Sa(8894),40);
-    K.TextColor3=Color3 .new(Sa(-7409),Sa(33948),Sa(11045));
-    K.Font=Enum.Font.Gotham;
-    K.TextSize=14;
-    K.Text='Aimbot Mode: TOGGLE';
-    Instance.new('UICorner',K);
-    K.MouseButton1Click:Connect(function()
-        return(function(ja)
-            local function Zb(wb)
-                return ja[wb+-12336]
-            end
-            pd=(pd==Zb(10946))and Zb(4549)or Zb(-17852);
-            K.Text=Zb(-19301)..string.upper(pd)
-        end){[-31637]='Aimbot Mode: ',[-30188]='Toggle',[-7787]='Hold',[-1390]='Toggle'}
-    end)
-    local Ca=Instance.new('TextBox',X);
-    Ca.Position=UDim2 .fromOffset(Sa(26065),280);
-    Ca.Size=UDim2 .fromOffset(Sa(21401),Sa(13859));
-    Ca.BackgroundColor3=Color3 .fromRGB(Sa(17144),35,35);
-    Ca.TextColor3=Color3 .new(Sa(36468),1,1);
-    Ca.Font=Enum.Font.Gotham;
-    Ca.TextSize=Sa(5684);
-    Ca.Text=Sa(-16702)..getgenv().Aimbot.Bind;
-    Ca.ClearTextOnFocus=false;
-    Instance.new('UICorner',Ca)
-    local _d=false;
-    Ca.Focused:Connect(function()
-        return(function(jb)
-            local function i_(gc)
-                return jb[gc-23604]
-            end
-            _d=i_(21740);
-            Ca.Text='Press key or mouse button...'
-        end){[-1864]=true}
-    end);
-    Ba.InputBegan:Connect(function(Za,qd)
-        return(function(Cc)
-            local function u_(Pc)
-                return Cc[Pc-17010]
-            end
-            if Za.KeyCode==Enum.KeyCode.Insert or Za.KeyCode==Enum.KeyCode.F4 then
-                lb.Enabled=not lb.Enabled
-                return
-            end
-            if _d then
-                if Za.UserInputType==Enum.UserInputType.Keyboard then
-                    getgenv().Aimbot.Bind=Za.KeyCode.Name
-                elseif Za.UserInputType==Enum.UserInputType.MouseButton4 then
-                    getgenv().Aimbot.Bind='MouseButton4'
-                elseif Za.UserInputType==Enum.UserInputType.MouseButton5 then
-                    getgenv().Aimbot.Bind='MouseButton5'
-                else
-                    return
-                end
-                Ca.Text='Aimbot Key: '..getgenv().Aimbot.Bind;
-                _d=false;
-                Ca:ReleaseFocus()
-                return
-            end
-            if not(qd)then
-            else
-                return
-            end
-            if not(Aa(Za))then
-            else
-                if not(pd=='Toggle')then
-                    if pd==u_(-864)and not Sc then
-                        db();
-                        Sc=true
-                    end
-                else
-                    if f_ then
-                        if not(od)then
-                        else
-                            od:Disconnect()
-                        end
-                        Vc=nil
+                    if not(not Id or not Id.Character)then
                     else
-                        db()
+                        Id=xb(-50220)
+                        return
                     end
-                    f_=not f_
+                    local ga=Id.Character:FindFirstChildOfClass(xb(-1051))
+                    if not ga or ga.Health<=Q.EnemyHealthStop then
+                        if not(qe)then
+                        else
+                            qe:Disconnect()
+                        end
+                        Id=xb(-30186);
+                        ea=xb(-16503);
+                        bd=false
+                        return
+                    end
+                    if Uc[Id.UserId]then
+                        Id=nil
+                        return
+                    end
+                    local Dd=Id.Character:FindFirstChild(xb(-33055))
+                    if not(not Dd)then
+                    else
+                        return
+                    end
+                    local Sa,kc=Dd.Velocity,(Jb.CFrame.Position-Dd.Position).Magnitude
+                    local bg=math.clamp(kc/getgenv().Aimbot.Distance.Reference,1,getgenv().Aimbot.Distance.MaxMultiplier)
+                    local Zf=Dd.Position+Vector3 .new(Sa.X*getgenv().Aimbot.Prediction.X*bg,Sa.Y*getgenv().Aimbot.Prediction.Y,Sa.Z*getgenv().Aimbot.Prediction.X*bg);
+                    Jb.CFrame=CFrame.lookAt(Jb.CFrame.Position,Zf)
+                end){[-15551]='HumanoidRootPart',[-32716]=nil,[16453]='Humanoid',[1001]=false,[-12682]=nil}
+            end)
+        end){[-9722]=nil}
+    end
+    local function gc(Pf)
+        return(function(kb)
+            local function nf(ng)
+                return kb[ng+20328]
+            end
+            local Ga=getgenv().Aimbot.Bind
+            if not(Pf.UserInputType==Enum.UserInputType.Keyboard)then
+            else
+                return Pf.KeyCode.Name==Ga
+            end
+            return(Ga==nf(-1590)and Pf.UserInputType==Enum.UserInputType.MouseButton4)or(Ga==nf(-35824)and Pf.UserInputType==Enum.UserInputType.MouseButton5)
+        end){[-15496]='MouseButton5',[18738]='MouseButton4'}
+    end
+    Ed.InputBegan:Connect(function(se_,Mf)
+        return(function(vc)
+            local function Xe(je)
+                return vc[je+4963]
+            end
+            if Mf then
+                return
+            end
+            if gc(se_)then
+                if Tc=='Toggle'then
+                    if not(ea)then
+                        lg()
+                    else
+                        if not(qe)then
+                        else
+                            qe:Disconnect()
+                        end
+                        Id=Xe(-28524)
+                    end
+                    ea=not ea
+                elseif Tc==Xe(12909)and not bd then
+                    lg();
+                    bd=Xe(27163)
                 end
             end
-        end){[-17874]='Hold'}
+        end){[-23561]=nil,[32126]=true,[17872]='Hold'}
     end);
-    Ba.InputEnded:Connect(function(j)
-        return(function(ta)
-            local function Rc(p)
-                return ta[p+591]
+    Ed.InputEnded:Connect(function(F)
+        return(function(ie)
+            local function qa(gb)
+                return ie[gb+24763]
             end
-            if pd=='Hold'and Aa(j)then
-                if not(od)then
+            if not(Tc=='Hold'and gc(F))then
+            else
+                if qe then
+                    qe:Disconnect()
+                end
+                Id=qa(-49009);
+                bd=qa(-7883)
+            end
+        end){[16880]=false,[-24246]=nil}
+    end)
+    local function ja(Pa)
+        return(function(Kc)
+            local function og(Xb)
+                return Kc[Xb- -24889]
+            end
+            local Na=Pa.Character
+            if not Na then
+                return
+            end
+            local Oe,Ce=Na:FindFirstChild'HumanoidRootPart',Na:FindFirstChildOfClass(og(-56502))
+            if not Oe or not Ce then
+                return
+            end
+            local sc,z,hb=Uc[Pa.UserId],Pa==Xa,Ce.Health<=Q.EnemyHealthStop
+            if z then
+                return
+            end
+            local d_=pc.Enabled or nb.Enabled
+            local _d,Yd=d_ and not sc and not hb,hb or sc or(not pc.Enabled and not nb.Enabled)
+            if pc.Enabled and _d then
+                if not pc.OriginalSizes[Pa.UserId]then
+                    pc.OriginalSizes[Pa.UserId]=Oe.Size;
+                    pc.OriginalPartType[Pa.UserId]=Oe.Shape
+                end
+                Oe.Size=pc.OriginalSizes[Pa.UserId]*pc.Scale
+            elseif Yd then
+                if pc.OriginalSizes[Pa.UserId]then
+                    Oe.Size=pc.OriginalSizes[Pa.UserId];
+                    pc.OriginalSizes[Pa.UserId]=og(1520)
+                end
+                if not(pc.OriginalPartType[Pa.UserId])then
                 else
-                    od:Disconnect()
+                    Oe.Shape=pc.OriginalPartType[Pa.UserId];
+                    pc.OriginalPartType[Pa.UserId]=nil
                 end
-                Vc=Rc(-16025);
-                Sc=Rc(-26737)
             end
-        end){[-15434]=nil,[-26146]=false}
-    end);
-    print(Sa(-21744))
-    local Oa,a_=game:GetService(Sa(7358)),game:GetService(Sa(-25830))
-    local P,bb,td=Oa.LocalPlayer,workspace.CurrentCamera,Instance.new'ScreenGui';
-    td.Name='IsaacTabbedUI';
-    td.ResetOnSpawn=false;
-    td.Parent=P:WaitForChild(Sa(3838))
-    local Ua=Instance.new'Frame';
-    Ua.Size=UDim2 .fromOffset(Sa(15157),Sa(18264));
-    Ua.Position=UDim2 .fromScale(Sa(-20423),0.5);
-    Ua.AnchorPoint=Vector2 .new(0.5,0.5);
-    Ua.BackgroundColor3=Color3 .fromRGB(15,15,18);
-    Ua.Parent=td;
-    Instance.new(Sa(-13651),Ua).CornerRadius=UDim.new(0,14)
-    local rb=Instance.new'Frame';
-    rb.Size=UDim2 .new(1,Sa(7589),0,40);
-    rb.BackgroundColor3=Color3 .fromRGB(20,Sa(823),24);
-    rb.Parent=Ua;
-    Instance.new('UICorner',rb).CornerRadius=UDim.new(0,14)
-    local vc=Instance.new(Sa(-15369));
-    vc.Size=UDim2 .new(1,Sa(-11633),0,14);
-    vc.Position=UDim2 .fromOffset(Sa(13427),26);
-    vc.BackgroundColor3=Color3 .fromRGB(Sa(-17749),Sa(-20316),24);
-    vc.BorderSizePixel=Sa(-16947);
-    vc.Parent=rb
-    local qb=Instance.new'TextLabel';
-    qb.BackgroundTransparency=1;
-    qb.Size=UDim2 .new(Sa(-3765),-16,1,0);
-    qb.Position=UDim2 .fromOffset(16,0);
-    qb.Font=Enum.Font.GothamBold;
-    qb.TextSize=Sa(19432);
-    qb.TextColor3=Color3 .fromRGB(235,Sa(-1527),Sa(24001));
-    qb.TextXAlignment=Enum.TextXAlignment.Left;
-    qb.Text='lwserboy on discord and f9 for more info.';
-    qb.Parent=rb
+            if not(nb.Enabled and _d)then
+                if Yd and pc.OriginalTransparency[Pa.UserId]then
+                    Oe.Transparency=pc.OriginalTransparency[Pa.UserId];
+                    Oe.Color=Color3 .new(0,0,0);
+                    pc.OriginalTransparency[Pa.UserId]=og(-36448)
+                end
+            else
+                if not pc.OriginalTransparency[Pa.UserId]then
+                    pc.OriginalTransparency[Pa.UserId]=Oe.Transparency
+                end
+                Oe.Transparency=og(-56536);
+                Oe.Color=sc and Q.Colors.Ally or Q.Colors.Enemy
+            end
+            local p=_d and og(5836)or'Default';
+            Oe.CollisionGroup=p
+            if _d then
+                if not(not pc.OriginalJoints[Pa.UserId])then
+                else
+                    pc.OriginalJoints[Pa.UserId]={}
+                    for Hc,ed in ipairs(Na:GetDescendants())do
+                        if ed:IsA(og(-15288))or ed:IsA'JointInstance'then
+                            ed.Enabled=og(-37425);
+                            table.insert(pc.OriginalJoints[Pa.UserId],ed)
+                        end
+                    end
+                end
+            elseif Yd and pc.OriginalJoints[Pa.UserId]then
+                for Ka,ud in ipairs(pc.OriginalJoints[Pa.UserId])do
+                    if not(ud and(ud:IsA'Motor6D'or ud:IsA(og(-28143))))then
+                    else
+                        ud.Enabled=true
+                    end
+                end
+                pc.OriginalJoints[Pa.UserId]=og(-40064)
+            end
+        end){[-12536]=false,[-3254]='JointInstance',[-15175]=nil,[9601]='Motor6D',[30725]='NoCollideHBE',[-11559]=nil,[-31613]='Humanoid',[26409]=nil,[-31647]=0.5}
+    end
+    local function db(hg)
+        if not(hg==Xa)then
+        else
+            return
+        end
+        hg.CharacterAdded:Connect(function(ve)
+            ve:WaitForChild'HumanoidRootPart';
+            task.wait(0.10000000000000001);
+            ja(hg)
+            local wc=Ud(hg)
+            if not(wc)then
+            else
+                wc.HealthChanged:Connect(function(De)
+                    return(function(Sf)
+                        local function l_(td)
+                            return Sf[td-23694]
+                        end
+                        ja(hg)
+                        if De<=Q.EnemyHealthStop and Id==hg then
+                            if qe then
+                                qe:Disconnect()
+                            end
+                            Id=l_(2256);
+                            ea=false;
+                            bd=l_(15751)
+                        end
+                    end){[-7943]=false,[-21438]=nil}
+                end)
+            end
+        end)
+        if hg.Character then
+            ja(hg)
+        end
+    end
+    for ma,jf in ipairs(Ta:GetPlayers())do
+        db(jf)
+    end
+    Ta.PlayerAdded:Connect(db);
+    Ta.PlayerRemoving:Connect(function(Ea)
+        return(function(Ke)
+            local function Ze(ha)
+                return Ke[ha- -4525]
+            end
+            pc.OriginalSizes[Ea.UserId]=Ze(11881);
+            pc.OriginalTransparency[Ea.UserId]=Ze(6784);
+            pc.OriginalPartType[Ea.UserId]=nil;
+            pc.OriginalJoints[Ea.UserId]=nil
+        end){[16406]=nil,[11309]=nil}
+    end)
+    local Vc,oa
+    local function H()
+        return(function(fg)
+            local function g(sa)
+                return fg[sa- -12470]
+            end
+            if not(Vc)then
+            else
+                local Le=pc.Enabled;
+                Vc.Text='Hitbox Expander: '..(Le and'ON'or g(-29856));
+                Vc.BackgroundColor3=Le and Color3 .fromRGB(g(-7196),42,g(-16926))or Color3 .fromRGB(g(-27582),28,g(8302))
+            end
+            if not(oa)then
+            else
+                local Re=nb.Enabled;
+                oa.Text=g(1827)..(Re and'ON'or g(-27637));
+                oa.BackgroundColor3=Re and Color3 .fromRGB(42,42,g(-28527))or Color3 .fromRGB(g(-34521),g(18596),g(-11524))
+            end
+        end){[-15167]='OFF',[-15112]=28,[5274]=42,[14297]='Hitbox Visualizer: ',[31066]=28,[946]=34,[-4456]=52,[20772]=34,[-22051]=28,[-17386]='OFF',[-16057]=52}
+    end
+    Xa.CharacterAdded:Connect(function(M)
+        return(function(qg)
+            local function tb(id)
+                return qg[id-14288]
+            end
+            if Q.ResetOnDeath then
+                if not(qe)then
+                else
+                    qe:Disconnect();
+                    Id=nil
+                end
+                ea=tb(14780);
+                bd=tb(38477);
+                pc.Enabled=false;
+                nb.Enabled=false;
+                H()
+                for gg,wf in ipairs(Ta:GetPlayers())do
+                    if wf~=Xa and wf.Character then
+                        ja(wf)
+                    end
+                end
+            end
+        end){[492]=false,[24189]=false}
+    end)
+    local mf,xe,Fe=qd.RenderStepped:Connect(function()
+        return(function(kf)
+            local function Zc(fe)
+                return kf[fe-21843]
+            end
+            if not(pc.Enabled or nb.Enabled)then
+                for zg,ig in ipairs(Ta:GetPlayers())do
+                    if not(ig==Xa or not ig.Character)then
+                    else
+                        continue
+                    end
+                    for Kf,Lc in ipairs(ig.Character:GetDescendants())do
+                        if not(Lc:IsA(Zc(-196)))then
+                        else
+                            if Lc.CanCollide==false then
+                                Lc.CanCollide=Zc(4832)
+                            end
+                            if not(Lc.CollisionGroup==Zc(-7535))then
+                            else
+                                Lc.CollisionGroup=Zc(29696)
+                            end
+                            if not(Lc.Name==Zc(-7353)and pc.OriginalPartType[ig.UserId])then
+                            else
+                                Lc.Shape=pc.OriginalPartType[ig.UserId]
+                            end
+                        end
+                    end
+                end
+            else
+                for vf,Ae in ipairs(Ta:GetPlayers())do
+                    if Ae==Xa or Uc[Ae.UserId]or not Ae.Character then
+                        continue
+                    end
+                    local he=Ud(Ae)
+                    if not(he and he.Health<=Q.EnemyHealthStop)then
+                    else
+                        continue
+                    end
+                    for A,_b in ipairs(Ae.Character:GetDescendants())do
+                        if _b:IsA(Zc(48665))then
+                            _b.CanCollide=Zc(18639);
+                            _b.CollisionGroup='NoCollideHBE'
+                            if pc.Enabled and _b.Name=='HumanoidRootPart'then
+                                _b.Shape=Enum.PartType.Block
+                            end
+                        end
+                    end
+                end
+            end
+        end){[-29196]='HumanoidRootPart',[26822]='BasePart',[-22039]='BasePart',[-3204]=false,[-17011]=true,[-29378]='NoCollideHBE',[7853]='Default'}
+    end),Xa:WaitForChild(if_(28938)),Instance.new(if_(-5926));
+    Fe.Name='IsaacTabbedUI';
+    Fe.ResetOnSpawn=if_(-20242);
+    Fe.Parent=xe
+    local c=Instance.new'Frame';
+    c.Size=UDim2 .fromOffset(if_(-10941),if_(6533));
+    c.Position=UDim2 .fromScale(if_(28360),0.5);
+    c.AnchorPoint=Vector2 .new(0.5,0.5);
+    c.BackgroundColor3=Color3 .fromRGB(if_(12653),if_(13422),if_(3754));
+    c.Parent=Fe;
+    Instance.new('UICorner',c).CornerRadius=UDim.new(0,if_(-8063))
+    local V=Instance.new(if_(-21263));
+    V.Size=UDim2 .new(1,0,0,if_(-27721));
+    V.BackgroundColor3=Color3 .fromRGB(if_(-11374),20,if_(-22909));
+    V.Parent=c;
+    Instance.new(if_(-5749),V).CornerRadius=UDim.new(if_(28941),if_(1903))
+    local Ef=Instance.new(if_(-25859));
+    Ef.Size=UDim2 .new(1,if_(17873),0,14);
+    Ef.Position=UDim2 .fromOffset(if_(-19634),26);
+    Ef.BackgroundColor3=Color3 .fromRGB(if_(7606),if_(-15460),24);
+    Ef.BorderSizePixel=0;
+    Ef.Parent=V
+    local Xc=Instance.new(if_(-13399));
+    Xc.BackgroundTransparency=1;
+    Xc.Size=UDim2 .new(1,-16,1,if_(27483));
+    Xc.Position=UDim2 .fromOffset(16,if_(-2314));
+    Xc.Font=Enum.Font.GothamBold;
+    Xc.TextSize=16;
+    Xc.TextColor3=Color3 .fromRGB(if_(-22096),235,if_(-11578));
+    Xc.TextXAlignment=Enum.TextXAlignment.Left;
+    Xc.Text='lwserboy on discord for more. + version';
+    Xc.Parent=V
     do
-        local oa=Sa(17916)
-        local pb,Ab;
-        rb.InputBegan:Connect(function(Va)
-            if not(Va.UserInputType==Enum.UserInputType.MouseButton1)then
-            else
-                oa=true;
-                pb=Va.Position;
-                Ab=Ua.Position
-            end
-        end);
-        a_.InputEnded:Connect(function(Gb)
-            return(function(Xc)
-                local function gd(yb)
-                    return Xc[yb-11242]
+        local o_=false
+        local ec,v;
+        V.InputBegan:Connect(function(x)
+            return(function(tg)
+                local function ag(Td)
+                    return tg[Td+13841]
                 end
-                if Gb.UserInputType==Enum.UserInputType.MouseButton1 then
-                    oa=gd(-2540)
+                if not(x.UserInputType==Enum.UserInputType.MouseButton1)then
+                else
+                    o_=ag(12844);
+                    ec=x.Position;
+                    v=c.Position
                 end
-            end){[-13782]=false}
+            end){[26685]=true}
         end);
-        a_.InputChanged:Connect(function(L)
-            if not(oa and L.UserInputType==Enum.UserInputType.MouseMovement)then
-            else
-                local ub=L.Position-pb;
-                Ua.Position=UDim2 .new(Ab.X.Scale,Ab.X.Offset+ub.X,Ab.Y.Scale,Ab.Y.Offset+ub.Y)
+        Ed.InputEnded:Connect(function(ic)
+            return(function(ub)
+                local function Od(dc)
+                    return ub[dc+-13281]
+                end
+                if ic.UserInputType==Enum.UserInputType.MouseButton1 then
+                    o_=Od(8921)
+                end
+            end){[-4360]=false}
+        end);
+        Ed.InputChanged:Connect(function(Qe)
+            if o_ and Qe.UserInputType==Enum.UserInputType.MouseMovement then
+                local Bf=Qe.Position-ec;
+                c.Position=UDim2 .new(v.X.Scale,v.X.Offset+Bf.X,v.Y.Scale,v.Y.Offset+Bf.Y)
             end
         end)
     end
-    local Wc=Instance.new'Frame';
-    Wc.Size=UDim2 .fromOffset(150,420);
-    Wc.Position=UDim2 .fromOffset(Sa(-25332),52);
-    Wc.BackgroundColor3=Color3 .fromRGB(Sa(-7562),18,Sa(12504));
-    Wc.Parent=Ua;
-    Instance.new('UICorner',Wc).CornerRadius=UDim.new(Sa(27886),Sa(38235))
-    local Ec=Instance.new(Sa(37659));
-    Ec.Padding=UDim.new(0,Sa(37567));
-    Ec.SortOrder=Enum.SortOrder.LayoutOrder;
-    Ec.Parent=Wc
-    local C=Instance.new'UIPadding';
-    C.PaddingTop=UDim.new(0,16);
-    C.PaddingLeft=UDim.new(Sa(-13592),Sa(35114));
-    C.PaddingRight=UDim.new(0,Sa(-4285));
-    C.Parent=Wc
-    local function dd(pa,Kc)
-        return(function(lc)
-            local function ua(D)
-                return lc[D+-7617]
+    local ta=Instance.new(if_(683));
+    ta.Size=UDim2 .fromOffset(150,if_(-8549));
+    ta.Position=UDim2 .fromOffset(if_(12299),52);
+    ta.BackgroundColor3=Color3 .fromRGB(if_(5185),18,if_(28866));
+    ta.Parent=c;
+    Instance.new('UICorner',ta).CornerRadius=UDim.new(if_(-11622),14)
+    local Yb=Instance.new'UIListLayout';
+    Yb.Padding=UDim.new(0,if_(-18903));
+    Yb.SortOrder=Enum.SortOrder.LayoutOrder;
+    Yb.Parent=ta
+    local W=Instance.new(if_(-25703));
+    W.PaddingTop=UDim.new(if_(-25412),if_(11929));
+    W.PaddingLeft=UDim.new(if_(22165),if_(-8370));
+    W.PaddingRight=UDim.new(0,if_(7048));
+    W.Parent=ta
+    local function le(nc,Pc)
+        return(function(kg)
+            local function Nb(uf)
+                return kg[uf- -28869]
             end
-            local xa=Instance.new'TextButton';
-            xa.LayoutOrder=Kc;
-            xa.Size=UDim2 .new(1,ua(2644),0,44);
-            xa.BackgroundColor3=Color3 .fromRGB(28,28,34);
-            xa.TextColor3=Color3 .fromRGB(240,240,ua(-13918));
-            xa.Font=Enum.Font.GothamSemibold;
-            xa.TextSize=ua(12144);
-            xa.Text=pa;
-            xa.Parent=Wc;
-            Instance.new(ua(-8276),xa).CornerRadius=UDim.new(ua(38374),12)
-            return xa
-        end){[30757]=0,[-4973]=0,[4527]=14,[-15893]='UICorner',[-21535]=240}
+            local pg=Instance.new(Nb(-34295));
+            pg.LayoutOrder=Pc;
+            pg.Size=UDim2 .new(1,0,0,Nb(1609));
+            pg.BackgroundColor3=Color3 .fromRGB(28,28,Nb(377));
+            pg.TextColor3=Color3 .fromRGB(240,240,240);
+            pg.Font=Enum.Font.GothamSemibold;
+            pg.TextSize=Nb(-55816);
+            pg.Text=nc;
+            pg.Parent=ta;
+            Instance.new(Nb(-52456),pg).CornerRadius=UDim.new(0,12)
+            return pg
+        end){[29246]=34,[-5426]='TextButton',[-23587]='UICorner',[30478]=44,[-26947]=14}
     end
-    local Ic,pc,hb=dd(Sa(-1588),Sa(26456)),dd(Sa(-19911),2),Instance.new'Frame';
-    hb.Size=UDim2 .fromOffset(Sa(-22508),Sa(35061));
-    hb.Position=UDim2 .fromOffset(Sa(-26458),Sa(34252));
-    hb.BackgroundColor3=Color3 .fromRGB(18,Sa(16515),22);
-    hb.Parent=Ua;
-    Instance.new(Sa(11306),hb).CornerRadius=UDim.new(0,Sa(-6440))
-    local function Hc()
-        return(function(zc)
-            local function ea(x)
-                return zc[x-8881]
+    local Nf,Sb,jg,Of,uc=le('Aimbot',1),le(if_(7951),if_(16383)),le('Hitbox',3),le(if_(-14759),4),Instance.new'Frame';
+    uc.Size=UDim2 .fromOffset(620,if_(-31589));
+    uc.Position=UDim2 .fromOffset(if_(1574),if_(-17283));
+    uc.BackgroundColor3=Color3 .fromRGB(18,if_(-6203),22);
+    uc.Parent=c;
+    Instance.new('UICorner',uc).CornerRadius=UDim.new(0,14)
+    local function L()
+        return(function(cb)
+            local function Tf(Wc)
+                return cb[Wc+16166]
             end
-            local Fc=Instance.new'Frame';
-            Fc.Size=UDim2 .fromScale(1,ea(-10144));
-            Fc.BackgroundTransparency=1;
-            Fc.Parent=hb
-            return Fc
-        end){[-19025]=1}
+            local Vd=Instance.new'Frame';
+            Vd.Size=UDim2 .fromScale(1,Tf(5099));
+            Vd.BackgroundTransparency=Tf(10693);
+            Vd.Parent=uc
+            return Vd
+        end){[26859]=1,[21265]=1}
     end
-    local tc,Eb=Hc(),Hc();
-    Eb.Visible=Sa(-22662)
-    local function sc(qc)
-        return(function(d_)
-            local function ka(V)
-                return d_[V-26040]
+    local Rf,wg,Cb,I=L(),L(),L(),L();
+    I.Visible=false;
+    wg.Visible=false;
+    Cb.Visible=false
+    local function Sc(La)
+        return(function(Dg)
+            local function Vf(Gb)
+                return Dg[Gb+11442]
             end
-            tc.Visible=(qc=='Aimbot');
-            Eb.Visible=(qc=='Players');
-            Ic.BackgroundColor3=(qc==ka(-4776))and Color3 .fromRGB(42,ka(27491),ka(47501))or Color3 .fromRGB(28,ka(18406),ka(5667));
-            pc.BackgroundColor3=(qc==ka(44543))and Color3 .fromRGB(ka(39565),42,ka(-459))or Color3 .fromRGB(ka(28177),ka(-5857),34)
-        end){[-30816]='Aimbot',[-7634]=28,[13525]=42,[2137]=28,[1451]=42,[-31897]=28,[-20373]=34,[21461]=52,[18503]='Players',[-26499]=52}
+            Rf.Visible=(La==Vf(6772));
+            wg.Visible=(La==Vf(-25951));
+            Cb.Visible=(La=='Hitbox');
+            I.Visible=(La==Vf(6224));
+            Nf.BackgroundColor3=(La=='Aimbot')and Color3 .fromRGB(Vf(-9538),Vf(-11596),Vf(7413))or Color3 .fromRGB(Vf(-9750),28,Vf(-38755));
+            Sb.BackgroundColor3=(La==Vf(18092))and Color3 .fromRGB(42,Vf(16337),52)or Color3 .fromRGB(28,28,34);
+            jg.BackgroundColor3=(La==Vf(-3073))and Color3 .fromRGB(Vf(-4431),Vf(4370),Vf(-13401))or Color3 .fromRGB(28,28,Vf(19703));
+            Of.BackgroundColor3=(La=='Tank')and Color3 .fromRGB(42,Vf(-42466),52)or Color3 .fromRGB(28,Vf(18388),Vf(-18790))
+        end){[18855]=52,[-7348]=34,[1692]=28,[-31024]=42,[7011]=42,[31145]=34,[8369]='Hitbox',[1904]=42,[17666]='Tank',[27779]=42,[-154]=42,[29830]=28,[15812]=42,[29534]='Players',[-14509]='Players',[-27313]=34,[-1959]=52,[18214]='Aimbot'}
     end
-    Ic.MouseButton1Click:Connect(function()
-        sc'Aimbot'
+    Nf.MouseButton1Click:Connect(function()
+        return(function(ad)
+            local function e_(ne)
+                return ad[ne+-15273]
+            end
+            Sc(e_(4231))
+        end){[-11042]='Aimbot'}
     end);
-    pc.MouseButton1Click:Connect(function()
-        sc'Players'
+    Sb.MouseButton1Click:Connect(function()
+        Sc'Players'
     end);
-    sc(Sa(1488))
-    local gb=Instance.new(Sa(-3766));
-    gb.BackgroundTransparency=1;
-    gb.Position=UDim2 .fromOffset(18,Sa(-2839));
-    gb.Size=UDim2 .new(Sa(23107),Sa(-14983),Sa(39030),24);
-    gb.Font=Enum.Font.GothamBold;
-    gb.TextSize=Sa(32336);
-    gb.TextXAlignment=Enum.TextXAlignment.Left;
-    gb.TextColor3=Color3 .fromRGB(Sa(5779),Sa(-18084),Sa(6245));
-    gb.Text=Sa(-19053);
-    gb.Parent=tc
-    local hd=Instance.new(Sa(11179));
-    hd.BackgroundTransparency=1;
-    hd.Position=UDim2 .fromOffset(18,Sa(4098));
-    hd.Size=UDim2 .new(1,Sa(34154),Sa(-7588),40);
-    hd.Font=Enum.Font.Gotham;
-    hd.TextSize=Sa(-16611);
-    hd.TextXAlignment=Enum.TextXAlignment.Left;
-    hd.TextColor3=Color3 .fromRGB(190,190,190);
-    hd.TextWrapped=true;
-    hd.Text='The aimbot tab is in a different window. Move this window around to see the aimbot settings window.';
-    hd.Parent=tc
-    local va,uc={},Sa(25660)
-    local function Wa(Nb,tb,nb)
-        return(function(e_)
-            local function ya(ia)
-                return e_[ia+25190]
-            end
-            local Ga=Instance.new(ya(-50735));
-            Ga.BackgroundTransparency=ya(-26571);
-            Ga.Position=UDim2 .fromOffset(ya(-52322),nb);
-            Ga.Size=UDim2 .new(ya(-19135),-36,0,24);
-            Ga.Font=Enum.Font.GothamBold;
-            Ga.TextSize=18;
-            Ga.TextXAlignment=Enum.TextXAlignment.Left;
-            Ga.TextColor3=Color3 .fromRGB(240,ya(-22195),ya(2378));
-            Ga.Text=tb;
-            Ga.Parent=Nb
-            return Ga
-        end){[2995]=240,[-27132]=18,[-1381]=1,[6055]=1,[27568]=240,[-25545]='TextLabel'}
-    end
-    Wa(Eb,Sa(-15505),18)
-    local Ja=Instance.new(Sa(12285));
-    Ja.Position=UDim2 .fromOffset(Sa(146),60);
-    Ja.Size=UDim2 .fromOffset(Sa(-2329),Sa(-13973));
-    Ja.BackgroundColor3=Color3 .fromRGB(Sa(-11205),22,28);
-    Ja.Parent=Eb;
-    Instance.new('UICorner',Ja).CornerRadius=UDim.new(0,14)
-    local ad=Instance.new'ScrollingFrame';
-    ad.Position=UDim2 .fromOffset(10,Sa(24412));
-    ad.Size=UDim2 .new(1,Sa(19528),Sa(-3228),-20);
-    ad.BackgroundTransparency=1;
-    ad.ScrollBarThickness=Sa(11490);
-    ad.CanvasSize=UDim2 .new(Sa(-10788),Sa(13167),0,0);
-    ad.Parent=Ja
-    local Rb=Instance.new(Sa(32146));
-    Rb.Padding=UDim.new(0,10);
-    Rb.SortOrder=Enum.SortOrder.LayoutOrder;
-    Rb.Parent=ad
-    local Tc=Instance.new(Sa(-25735));
-    Tc.Position=UDim2 .fromOffset(390,Sa(23604));
-    Tc.Size=UDim2 .fromOffset(Sa(23336),330);
-    Tc.BackgroundColor3=Color3 .fromRGB(22,Sa(3589),28);
-    Tc.Parent=Eb;
-    Instance.new('UICorner',Tc).CornerRadius=UDim.new(Sa(-8586),Sa(-12527))
-    local sb=Instance.new(Sa(-903));
-    sb.Position=UDim2 .fromOffset(14,Sa(32180));
-    sb.Size=UDim2 .fromOffset(64,64);
-    sb.BackgroundTransparency=Sa(13170);
-    sb.Parent=Tc
-    local o_=Instance.new(Sa(37114));
-    o_.Position=UDim2 .fromOffset(86,14);
-    o_.Size=UDim2 .fromOffset(Sa(-17001),Sa(-23487));
-    o_.BackgroundTransparency=1;
-    o_.Font=Enum.Font.Gotham;
-    o_.TextSize=Sa(3970);
-    o_.TextXAlignment=Enum.TextXAlignment.Left;
-    o_.TextYAlignment=Enum.TextYAlignment.Top;
-    o_.TextColor3=Color3 .fromRGB(235,Sa(-12263),235);
-    o_.TextWrapped=Sa(23549);
-    o_.Text='Select a player';
-    o_.Parent=Tc
-    local N=Instance.new'TextLabel';
-    N.Position=UDim2 .fromOffset(Sa(139),Sa(20238));
-    N.Size=UDim2 .fromOffset(184,18);
-    N.BackgroundTransparency=1;
-    N.Font=Enum.Font.Gotham;
-    N.TextSize=Sa(36976);
-    N.TextXAlignment=Enum.TextXAlignment.Left;
-    N.TextColor3=Color3 .fromRGB(Sa(13528),180,180);
-    N.Text='';
-    N.Parent=Tc
-    local function Pa(La)
-        local na=La.Character
-        if not na then
-            return nil
-        end
-        return na:FindFirstChildOfClass'Humanoid'
-    end
-    local function Ob(Ta)
-        if not(Ta and Ta.Character)then
-        else
-            local Oc=Pa(Ta)
-            if not(Oc)then
-            else
-                bb.CameraSubject=Oc
-                return
-            end
-        end
-        local Ya=Pa(P)
-        if not(Ya)then
-        else
-            bb.CameraSubject=Ya
-        end
-    end
-    local function _b(b_)
-        if not b_ or not b_.Character then
-            return
-        end
-        if not P.Character then
-            return
-        end
-        P.Character:PivotTo(b_.Character:GetPivot())
-    end
-    local function Bb(Cb,Ka,sa)
-        return(function(kd)
-            local function T(Qa)
-                return kd[Qa- -20472]
-            end
-            local A=Instance.new(T(-35190));
-            A.Position=UDim2 .fromOffset(T(-40776),Ka);
-            A.Size=UDim2 .fromOffset(184,T(-30096));
-            A.BackgroundColor3=Color3 .fromRGB(28,28,T(-8278));
-            A.TextColor3=Color3 .fromRGB(240,T(-4739),T(-14667));
-            A.Font=Enum.Font.GothamSemibold;
-            A.TextSize=13;
-            A.Text=Cb;
-            A.Parent=Tc;
-            Instance.new(T(-21346),A).CornerRadius=UDim.new(T(-36845),12);
-            A.MouseButton1Click:Connect(sa)
-            return A
-        end){[-16373]=0,[15733]=240,[-20304]=14,[-14718]='TextButton',[5805]=240,[-9624]=34,[-874]='UICorner',[12194]=34}
-    end
-    Bb('Whitelist',112,function()
-        return(function(bc)
-            local function Xb(S)
-                return bc[S+18861]
-            end
-            if not uc then
-                return
-            end
-            va[uc.UserId]=Xb(-45523);
-            N.Text=Xb(-1508)
-        end){[-26662]=true,[17353]='Whitelisted: YES'}
+    jg.MouseButton1Click:Connect(function()
+        Sc'Hitbox'
     end);
-    Bb('Unwhitelist',154,function()
-        return(function(Fb)
-            local function m(Kb)
-                return Fb[Kb+2586]
-            end
-            if not uc then
-                return
-            end
-            va[uc.UserId]=nil;
-            N.Text=m(13591)
-        end){[16177]='Whitelisted: NO'}
+    Of.MouseButton1Click:Connect(function()
+        Sc'Tank'
     end);
-    Bb(Sa(32232),Sa(13112),function()
-        if not(not uc)then
-        else
-            return
-        end
-        Ob(uc)
-    end);
-    Bb('Unspectate',238,function()
-        return(function(ac)
-            local function s_(Ub)
-                return ac[Ub+8707]
+    Sc'Aimbot'
+    local function rf(ka,R,aa)
+        return(function(S)
+            local function Cc(ef)
+                return S[ef-32564]
             end
-            Ob(s_(22445))
-        end){[31152]=nil}
+            local _c=Instance.new(Cc(56703));
+            _c.BackgroundTransparency=Cc(39594);
+            _c.Position=aa and UDim2 .fromOffset(18,aa)or UDim2 .new(0,0,Cc(46599),0);
+            _c.Size=UDim2 .new(1,Cc(51111),Cc(35576),24);
+            _c.Font=Enum.Font.GothamBold;
+            _c.TextSize=18;
+            _c.TextXAlignment=Enum.TextXAlignment.Left;
+            _c.TextColor3=Color3 .fromRGB(Cc(1078),Cc(51836),Cc(59145));
+            _c.Text=R;
+            _c.Parent=ka
+            return _c
+        end){[14035]=0,[24139]='TextLabel',[18547]=-36,[7030]=1,[26581]=240,[-31486]=240,[3012]=0,[19272]=240}
+    end
+    local function rb(U,wa,af,Qb)
+        return(function(ge)
+            local function mb(ib)
+                return ge[ib-17497]
+            end
+            local Mc=Instance.new(mb(20489));
+            Mc.Size=UDim2 .new(1,mb(30216),mb(6900),36);
+            Mc.BackgroundColor3=af and Color3 .fromRGB(mb(14807),42,52)or Color3 .fromRGB(mb(-4576),28,34);
+            Mc.TextColor3=Color3 .new(mb(-7105),1,1);
+            Mc.Font=Enum.Font.GothamSemibold;
+            Mc.TextSize=14;
+            Mc.Text=wa..': '..(af and'ON'or mb(-10179));
+            Mc.Parent=U;
+            Instance.new('UICorner',Mc).CornerRadius=UDim.new(0,mb(-7970))
+            local of=af;
+            Mc.MouseButton1Click:Connect(function()
+                return(function(Eb)
+                    local function Ja(be)
+                        return Eb[be- -30073]
+                    end
+                    of=not of;
+                    Mc.Text=wa..Ja(-24999)..(of and'ON'or'OFF');
+                    Mc.BackgroundColor3=of and Color3 .fromRGB(Ja(-27821),42,Ja(-32258))or Color3 .fromRGB(28,28,Ja(-54441));
+                    Qb(of)
+                end){[-24368]=34,[2252]=42,[-2185]=52,[5074]=': '}
+            end)
+            return Mc
+        end){[-27676]='OFF',[-22073]=28,[2992]='TextButton',[-24602]=1,[-2690]=42,[-25467]=12,[12719]=0,[-10597]=0}
+    end
+    local function Wd(Zb,Cd,yf,hf,Bb,u_,mc)
+        return(function(lb)
+            local function vg(zf)
+                return lb[zf- -20198]
+            end
+            local qc=Instance.new(vg(-35261));
+            qc.Size=UDim2 .new(1,vg(11756),vg(-37491),vg(-12697));
+            qc.BackgroundTransparency=1;
+            qc.Parent=Zb
+            local m=Instance.new(vg(-7854),qc);
+            m.Position=UDim2 .fromOffset(vg(1459),0);
+            m.Size=UDim2 .new(1,0,vg(-516),20);
+            m.BackgroundTransparency=vg(-16951);
+            m.TextColor3=Color3 .new(vg(-37480),vg(-15131),1);
+            m.Font=Enum.Font.Gotham;
+            m.TextSize=14;
+            m.TextXAlignment=vg(3976)
+            local Kb=Instance.new(vg(-4708),qc);
+            Kb.Position=UDim2 .fromOffset(0,vg(-45812));
+            Kb.Size=UDim2 .new(vg(-40944),0,0,vg(-52832));
+            Kb.BackgroundColor3=Color3 .fromRGB(vg(5281),vg(9132),60);
+            Instance.new(vg(-6905),Kb).CornerRadius=UDim.new(1,vg(1584))
+            local wb=Instance.new('Frame',Kb);
+            wb.Position=UDim2 .fromScale(0,0.5);
+            wb.Size=UDim2 .fromOffset(14,vg(-30056));
+            wb.AnchorPoint=Vector2 .new(0.5,0.5);
+            wb.BackgroundColor3=Color3 .fromRGB(220,220,vg(-50673));
+            Instance.new(vg(-9688),wb).CornerRadius=UDim.new(vg(8394),vg(-47279))
+            local xd=false
+            local function Ff()
+                return(function(Nd)
+                    local function vd(Oa)
+                        return Nd[Oa+-12562]
+                    end
+                    local Ad=Bb()
+                    local Gd=(Ad-yf)/(hf-yf);
+                    wb.Position=UDim2 .fromScale(Gd,vd(3893));
+                    m.Text=string.format(Cd..vd(18085)..(mc or'%.3f'),Ad)
+                end){[-8669]=0.5,[5523]=': '}
+            end
+            Ff();
+            wb.InputBegan:Connect(function(_a)
+                if _a.UserInputType==Enum.UserInputType.MouseButton1 then
+                    xd=true
+                end
+            end);
+            Ed.InputEnded:Connect(function(Cg)
+                if Cg.UserInputType==Enum.UserInputType.MouseButton1 then
+                    xd=false
+                end
+            end);
+            Ed.InputChanged:Connect(function(Vb)
+                return(function(ld)
+                    local function Ue(Qa)
+                        return ld[Qa-946]
+                    end
+                    if xd and Vb.UserInputType==Enum.UserInputType.MouseMovement then
+                        local Ee=Ed:GetMouseLocation()
+                        local Fc=math.clamp((Ee.X-Kb.AbsolutePosition.X)/Kb.AbsoluteSize.X,Ue(-14813),Ue(-15181));
+                        u_(yf+(hf-yf)*Fc);
+                        Ff()
+                    end
+                end){[-15759]=0,[-16127]=1}
+            end)
+            return{update=Ff,Frame=qc}
+        end){[19682]=0,[25479]=60,[5067]=1,[-15063]='Frame',[10510]='UICorner',[24174]='Left',[-20746]=1,[-27081]=0,[21657]=0,[28592]=1,[-30475]=220,[15490]='Frame',[13293]='UICorner',[-32634]=6,[31954]=0,[-17282]=1,[21782]=0,[3247]=1,[-9858]=14,[-25614]=25,[7501]=50,[29330]=60,[12344]='TextLabel',[-17293]=0}
+    end
+    local Af=Instance.new(if_(21154),Rf);
+    Af.Padding=UDim.new(if_(3679),10);
+    Af.SortOrder=Enum.SortOrder.LayoutOrder
+    local fa_=Instance.new(if_(-7936),Rf);
+    fa_.PaddingLeft=UDim.new(if_(-9858),if_(32269));
+    fa_.PaddingRight=UDim.new(0,if_(16833));
+    fa_.PaddingTop=UDim.new(if_(-32846),20);
+    rf(Rf,'Aimbot Settings');
+    Wd(Rf,'Prediction X',if_(-3890),if_(-15718),function()
+        return getgenv().Aimbot.Prediction.X
+    end,function(od)
+        getgenv().Aimbot.Prediction.X=od
     end);
-    Bb('Teleport',Sa(2354),function()
-        if not(not uc)then
-        else
-            return
-        end
-        _b(uc)
+    Wd(Rf,if_(-155),if_(-8356),0.5,function()
+        return getgenv().Aimbot.Prediction.Y
+    end,function(Fg)
+        getgenv().Aimbot.Prediction.Y=Fg
+    end);
+    Wd(Rf,if_(3398),0,if_(-28989),function()
+        return getgenv().Aimbot.Time
+    end,function(Ma)
+        getgenv().Aimbot.Time=Ma
     end)
-    local function Ac(R)
-        return(function(q)
-            local function kc(I)
-                return q[I+15159]
+    local Ba=Instance.new('Frame',Rf);
+    Ba.Size=UDim2 .new(if_(-14370),if_(2467),if_(-4507),if_(5756));
+    Ba.BackgroundTransparency=if_(-20031)
+    local hd=Instance.new('TextButton',Rf);
+    hd.Size=UDim2 .new(1,if_(16110),if_(18260),36);
+    hd.BackgroundColor3=Color3 .fromRGB(28,if_(11468),if_(20782));
+    hd.TextColor3=Color3 .new(if_(19640),1,if_(23253));
+    hd.Font=Enum.Font.GothamSemibold;
+    hd.TextSize=if_(8473);
+    hd.Text=if_(14274);
+    Instance.new(if_(-19867),hd).CornerRadius=UDim.new(0,if_(7166));
+    hd.MouseButton1Click:Connect(function()
+        return(function(qb)
+            local function Db(yg)
+                return qb[yg-2758]
             end
-            uc=R
-            if not(not R)then
-            else
-                sb.Image=kc(-37760);
-                o_.Text='Select a player';
-                N.Text=kc(-37933)
-                return
+            a_=not a_;
+            Id=Db(33859);
+            hd.Text=Db(-24448)..(a_ and'ON'or Db(-3064));
+            hd.BackgroundColor3=a_ and Color3 .fromRGB(Db(-23006),Db(-10471),52)or Color3 .fromRGB(28,28,34)
+        end){[-13229]=42,[-27206]='Sticky Lock: ',[-5822]='OFF',[31101]=nil,[-25764]=42}
+    end)
+    local Hf=Instance.new(if_(-18982),Rf);
+    Hf.Size=UDim2 .new(if_(-32391),if_(-20284),0,36);
+    Hf.BackgroundColor3=Color3 .fromRGB(28,if_(8207),if_(-10060));
+    Hf.TextColor3=Color3 .new(1,if_(11523),if_(4455));
+    Hf.Font=Enum.Font.GothamSemibold;
+    Hf.TextSize=14;
+    Hf.Text='Aimbot Mode: TOGGLE';
+    Instance.new('UICorner',Hf).CornerRadius=UDim.new(0,12);
+    Hf.MouseButton1Click:Connect(function()
+        return(function(Ra)
+            local function r_(dd)
+                return Ra[dd- -384]
             end
-            local Qb=Oa:GetUserThumbnailAsync(R.UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size180x180);
-            sb.Image=Qb;
-            o_.Text=('Display: %s\nUsername: %s'):format(R.DisplayName,R.Name);
-            N.Text=kc(-3589)..(va[R.UserId]and kc(9836)or kc(-30582))
-        end){[-22774]='',[-15423]='NO',[11570]='Whitelisted: ',[-22601]='',[24995]='YES'}
-    end
-    local B={}
-    local function Wb()
-        return(function(ec)
-            local function vb(fd)
-                return ec[fd- -15402]
+            Tc=(Tc=='Toggle')and'Hold'or r_(-12255);
+            Hf.Text='Aimbot Mode: '..string.upper(Tc)
+        end){[-11871]='Toggle'}
+    end)
+    local pb=Instance.new(if_(14077),Rf);
+    pb.Size=UDim2 .new(if_(-24724),if_(13137),0,if_(15976));
+    pb.BackgroundColor3=Color3 .fromRGB(28,28,34);
+    pb.TextColor3=Color3 .new(1,if_(31040),1);
+    pb.Font=Enum.Font.GothamSemibold;
+    pb.TextSize=if_(-11015);
+    pb.Text=if_(-32507)..getgenv().Aimbot.Bind;
+    pb.ClearTextOnFocus=false;
+    Instance.new('UICorner',pb).CornerRadius=UDim.new(if_(32018),if_(11140))
+    local Ya=false;
+    pb.Focused:Connect(function()
+        return(function(za)
+            local function Ge(Wa)
+                return za[Wa-12021]
             end
-            for Yb,Gc in ipairs(ad:GetChildren())do
-                if Gc:IsA(vb(-31931))then
-                    Gc:Destroy()
+            Ya=true;
+            pb.Text=Ge(42141)
+        end){[30120]='Press key or mouse button...'}
+    end);
+    Ed.InputBegan:Connect(function(Ye)
+        return(function(cd)
+            local function Pb(sg)
+                return cd[sg- -30244]
+            end
+            if Ya then
+                if not(Ye.UserInputType==Enum.UserInputType.Keyboard)then
+                    if not(Ye.UserInputType==Enum.UserInputType.MouseButton4)then
+                        if Ye.UserInputType==Enum.UserInputType.MouseButton5 then
+                            getgenv().Aimbot.Bind=Pb(-49124)
+                        else
+                            return
+                        end
+                    else
+                        getgenv().Aimbot.Bind=Pb(-15062)
+                    end
+                else
+                    getgenv().Aimbot.Bind=Ye.KeyCode.Name
+                end
+                pb.Text='Aimbot Key: '..getgenv().Aimbot.Bind;
+                Ya=false;
+                pb:ReleaseFocus()
+            end
+        end){[15182]='MouseButton4',[-18880]='MouseButton5'}
+    end)
+    local Yf=Instance.new(if_(16886),Cb);
+    Yf.Padding=UDim.new(0,if_(1742));
+    Yf.SortOrder=Enum.SortOrder.LayoutOrder
+    local df=Instance.new('UIPadding',Cb);
+    df.PaddingLeft=UDim.new(if_(-7880),20);
+    df.PaddingRight=UDim.new(if_(8751),if_(-2753));
+    df.PaddingTop=UDim.new(if_(-28794),if_(-11384));
+    rf(Cb,'Hitbox Expander Settings')
+    local Je=Instance.new'TextLabel';
+    Je.BackgroundTransparency=if_(-18067);
+    Je.Position=UDim2 .fromOffset(if_(-24094),if_(-19223));
+    Je.Size=UDim2 .new(1,if_(31862),0,if_(-9920));
+    Je.Font=Enum.Font.Gotham;
+    Je.TextSize=13;
+    Je.TextXAlignment=Enum.TextXAlignment.Left;
+    Je.TextYAlignment=Enum.TextYAlignment.Top;
+    Je.TextColor3=Color3 .fromRGB(if_(-2321),190,if_(-14486));
+    Je.TextWrapped=if_(19472);
+    Je.Text='Expands the HumanoidRootPart of non-whitelisted players.';
+    Je.Parent=Cb;
+    Je.LayoutOrder=if_(20204);
+    Vc=rb(Cb,if_(23622),pc.Enabled,function(gd)
+        pc.Enabled=gd
+        for C,lf in ipairs(Ta:GetPlayers())do
+            ja(lf)
+        end
+    end);
+    Vc.LayoutOrder=if_(1170);
+    oa=rb(Cb,'Hitbox Visualizer',nb.Enabled,function(B)
+        nb.Enabled=B
+        for yd,Lf in ipairs(Ta:GetPlayers())do
+            ja(Lf)
+        end
+    end);
+    oa.LayoutOrder=3
+    local bc=rb(Cb,if_(13389),Q.ResetOnDeath,function(lc)
+        Q.ResetOnDeath=lc
+    end);
+    bc.LayoutOrder=4
+    local rd=Wd(Cb,if_(11767),if_(16387),if_(20997),function()
+        return pc.Scale
+    end,function(jc)
+        pc.Scale=jc
+        if pc.Enabled then
+            for He,Xd in ipairs(Ta:GetPlayers())do
+                if not(Xd~=Xa and not Uc[Xd.UserId])then
+                else
+                    ja(Xd)
                 end
             end
-            table.clear(B)
-            for ic,G in ipairs(Oa:GetPlayers())do
-                local rd=Instance.new(vb(-45991));
-                rd.Size=UDim2 .new(vb(-23815),vb(8286),0,42);
-                rd.BackgroundColor3=Color3 .fromRGB(vb(2622),vb(-15816),34);
-                rd.TextColor3=Color3 .fromRGB(vb(5657),vb(-34028),240);
-                rd.Font=Enum.Font.GothamSemibold;
-                rd.TextSize=vb(-15013);
-                rd.Text=G.DisplayName;
-                rd.Parent=ad;
-                Instance.new(vb(-46959),rd).CornerRadius=UDim.new(0,12);
-                rd.MouseButton1Click:Connect(function()
-                    return(function(oc)
-                        local function l_(Tb)
-                            return oc[Tb- -13009]
+        end
+    end,'%.1fX');
+    rd.Frame.LayoutOrder=5
+    local Wb=Wd(Cb,if_(-20306),0,100,function()
+        return Q.EnemyHealthStop
+    end,function(Ob)
+        Q.EnemyHealthStop=math.round(Ob)
+        for P,Ld in ipairs(Ta:GetPlayers())do
+            ja(Ld)
+        end
+        if Id and Ud(Id)and Ud(Id).Health<=Q.EnemyHealthStop then
+            if qe then
+                qe:Disconnect()
+            end
+            Id=nil;
+            ea=false;
+            bd=false
+        end
+    end,'%.0f HP');
+    Wb.Frame.LayoutOrder=6
+    local dg,Dc,tf,ba=if_(-25733),if_(-21209),if_(-979),{[if_(-23034)]=true,Torso=if_(21094),HumanoidRootPart=true,[if_(-24678)]=if_(1509),[if_(17685)]=if_(11425),['Left Leg']=if_(-32240),[if_(25655)]=if_(27046)}
+    local _g,Kd
+    local re_={}
+    local function Ua()
+        return(function(eg)
+            local function pe(Ub)
+                return eg[Ub-24042]
+            end
+            local G=Xa.Character
+            if not(not G)then
+            else
+                return
+            end
+            if not Kd then
+                Kd=Instance.new(pe(2174));
+                Kd.Name=pe(-6921);
+                Kd.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop;
+                Kd.FillTransparency=0.84999999999999998;
+                Kd.OutlineTransparency=0.25;
+                Kd.Parent=G
+            end
+            Kd.Enabled=dg
+            local Sd=G:FindFirstChild(pe(47418))
+            if Sd and not _g then
+                _g=Instance.new'BillboardGui';
+                _g.Name=pe(54979);
+                _g.Size=UDim2 .fromOffset(140,30);
+                _g.StudsOffset=Vector3 .new(0,pe(-4828),pe(1166));
+                _g.AlwaysOnTop=pe(31381);
+                _g.Parent=Sd
+                local ee=Instance.new'TextLabel';
+                ee.Name=pe(27918);
+                ee.BackgroundTransparency=pe(-6255);
+                ee.Size=UDim2 .fromScale(1,1);
+                ee.Font=Enum.Font.GothamBold;
+                ee.TextSize=pe(53672);
+                ee.TextColor3=Color3 .fromRGB(pe(15436),255,255);
+                ee.Parent=_g
+            end
+            if not(_g and _g:FindFirstChild(pe(21507)))then
+            else
+                _g.Enabled=dg;
+                _g.Label.Text=dg and pe(37995)or'TANK: OFF'
+            end
+            for Te,mg in ipairs(G:GetChildren())do
+                if not(mg:IsA'BasePart')then
+                else
+                    local Hb=dg and ba[mg.Name]==pe(35124)
+                    if not(Hb and not re_[mg])then
+                        if(not Hb)and re_[mg]then
+                            re_[mg]:Destroy();
+                            re_[mg]=pe(32797)
                         end
-                        for y,aa in pairs(B)do
-                            aa.BackgroundColor3=Color3 .fromRGB(l_(16576),l_(-16484),34)
+                    else
+                        local jb=Instance.new(pe(41293));
+                        jb.Name='TankPartClientHighlight';
+                        jb.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop;
+                        jb.FillTransparency=1;
+                        jb.OutlineTransparency=0;
+                        jb.Parent=mg;
+                        re_[mg]=jb
+                    end
+                end
+            end
+        end){[3876]='Label',[17251]='Highlight',[29630]=14,[23376]='HumanoidRootPart',[-2535]='Label',[13953]='TANK: ON',[7339]=true,[-30963]='TankClientHighlight',[-8606]=255,[-21868]='Highlight',[11082]=true,[-28870]=3,[-30297]=1,[30937]='TankClientBillboard',[8755]=nil,[-22876]=0}
+    end
+    local function ya()
+        return(function(Ec)
+            local function Aa(Za)
+                return Ec[Za+-31198]
+            end
+            for zd,fd in ipairs(workspace:GetDescendants())do
+                if not(fd:IsA(Aa(41069)))then
+                else
+                    fd:Destroy()
+                end
+            end
+        end){[9871]='TouchTransmitter'}
+    end
+    local function xf()
+        if Dc then
+            ya()
+            if not tf then
+                tf=workspace.DescendantAdded:Connect(function(zb)
+                    return(function(If)
+                        local function ca(Ag)
+                            return If[Ag+8499]
                         end
-                        rd.BackgroundColor3=Color3 .fromRGB(l_(-11940),42,52);
-                        Ac(G)
-                    end){[-3475]=28,[1069]=42,[29585]=28}
+                        if Dc and zb:IsA(ca(-22803))then
+                            task.wait();
+                            zb:Destroy()
+                        end
+                    end){[-14304]='TouchTransmitter'}
+                end)
+            end
+        else
+            if not(tf)then
+            else
+                tf:Disconnect();
+                tf=nil
+            end
+        end
+    end
+    rf(I,if_(1765),18)
+    local Yc=Instance.new(if_(17832));
+    Yc.BackgroundTransparency=if_(-16483);
+    Yc.Position=UDim2 .fromOffset(18,44);
+    Yc.Size=UDim2 .new(if_(-1294),if_(-32125),if_(26597),36);
+    Yc.Font=Enum.Font.Gotham;
+    Yc.TextSize=13;
+    Yc.TextXAlignment=Enum.TextXAlignment.Left;
+    Yc.TextYAlignment=Enum.TextYAlignment.Top;
+    Yc.TextColor3=Color3 .fromRGB(190,190,if_(-31879));
+    Yc.TextWrapped=true;
+    Yc.Text=if_(17165);
+    Yc.Parent=I
+    local bf=Instance.new'TextButton';
+    bf.Position=UDim2 .fromOffset(18,90);
+    bf.Size=UDim2 .fromOffset(if_(-19890),34);
+    bf.BackgroundColor3=Color3 .fromRGB(if_(3038),28,34);
+    bf.TextColor3=Color3 .fromRGB(if_(17346),240,240);
+    bf.Font=Enum.Font.GothamSemibold;
+    bf.TextSize=14;
+    bf.Text='Tank Visuals: OFF';
+    bf.Parent=I;
+    Instance.new(if_(19347),bf).CornerRadius=UDim.new(0,if_(-10909))
+    local xc=Instance.new(if_(-8440));
+    xc.Position=UDim2 .fromOffset(18,134);
+    xc.Size=UDim2 .fromOffset(584,34);
+    xc.BackgroundColor3=Color3 .fromRGB(if_(2480),28,34);
+    xc.TextColor3=Color3 .fromRGB(240,240,240);
+    xc.Font=Enum.Font.GothamSemibold;
+    xc.TextSize=14;
+    xc.Text='Remove Touch Sensors (Anti-Touch): OFF';
+    xc.Parent=I;
+    Instance.new(if_(-30746),xc).CornerRadius=UDim.new(if_(16840),if_(-627))
+    local N=Instance.new(if_(476));
+    N.Position=UDim2 .fromOffset(18,180);
+    N.Size=UDim2 .fromOffset(if_(-252),if_(31260));
+    N.BackgroundColor3=Color3 .fromRGB(if_(-4474),if_(-14098),if_(-7721));
+    N.Parent=I;
+    Instance.new(if_(-13310),N).CornerRadius=UDim.new(0,14)
+    local Md=Instance.new(if_(21657));
+    Md.Position=UDim2 .fromOffset(if_(23208),if_(-8860));
+    Md.Size=UDim2 .new(if_(-33064),-20,if_(1865),if_(28125));
+    Md.BackgroundTransparency=1;
+    Md.ScrollBarThickness=if_(23442);
+    Md.CanvasSize=UDim2 .new(if_(23477),0,if_(7493),0);
+    Md.Parent=N
+    local Ic=Instance.new'UIListLayout';
+    Ic.Padding=UDim.new(0,if_(13500));
+    Ic.SortOrder=Enum.SortOrder.LayoutOrder;
+    Ic.Parent=Md;
+    bf.MouseButton1Click:Connect(function()
+        return(function(h)
+            local function Ve(hc)
+                return h[hc-21732]
+            end
+            dg=not dg;
+            bf.Text='Tank Visuals: '..(dg and'ON'or'OFF');
+            bf.BackgroundColor3=dg and Color3 .fromRGB(Ve(35218),42,52)or Color3 .fromRGB(28,Ve(-757),Ve(18581));
+            Ua()
+        end){[-3151]=34,[13486]=42,[-22489]=28}
+    end);
+    xc.MouseButton1Click:Connect(function()
+        return(function(Va)
+            local function Fa(md)
+                return Va[md+15796]
+            end
+            Dc=not Dc;
+            xc.Text=Fa(15227)..(Dc and Fa(11296)or Fa(-7666));
+            xc.BackgroundColor3=Dc and Color3 .fromRGB(Fa(-16463),42,Fa(-29604))or Color3 .fromRGB(Fa(11433),28,Fa(-42467));
+            xf()
+        end){[-26671]=34,[27229]=28,[-13808]=52,[-667]=42,[31023]='Remove Touch Sensors (Anti-Touch): ',[8130]='OFF',[27092]='ON'}
+    end)
+    local function yc(J)
+        return(function(nd)
+            local function Qf(X)
+                return nd[X-19391]
+            end
+            local jd=Instance.new(Qf(40463));
+            jd.Size=UDim2 .new(Qf(26836),Qf(40128),Qf(49784),Qf(1006));
+            jd.BackgroundTransparency=1;
+            jd.Parent=Md
+            local ua=Instance.new(Qf(-11813));
+            ua.BackgroundTransparency=Qf(16780);
+            ua.Position=UDim2 .fromOffset(0,0);
+            ua.Size=UDim2 .new(1,Qf(37329),Qf(-6823),Qf(52144));
+            ua.Font=Enum.Font.Gotham;
+            ua.TextSize=14;
+            ua.TextXAlignment=Enum.TextXAlignment.Left;
+            ua.TextColor3=Color3 .fromRGB(Qf(15799),Qf(13152),235);
+            ua.Text=J..':';
+            ua.Parent=jd
+            local ae=Instance.new'TextButton';
+            ae.Position=UDim2 .new(Qf(-5683),-140,Qf(35504),3);
+            ae.Size=UDim2 .fromOffset(140,34);
+            ae.BackgroundColor3=Color3 .fromRGB(28,Qf(-7217),Qf(23579));
+            ae.TextColor3=Color3 .fromRGB(Qf(39377),240,Qf(7538));
+            ae.Font=Enum.Font.GothamSemibold;
+            ae.TextSize=Qf(14199);
+            ae.Text=J..Qf(14799);
+            ae.Parent=jd;
+            Instance.new(Qf(37246),ae).CornerRadius=UDim.new(0,12)
+            local function Qd()
+                return(function(Ha)
+                    local function Xf(pa)
+                        return Ha[pa+-10348]
+                    end
+                    local da=ba[J];
+                    ae.Text=da and Xf(34891)or'OFF';
+                    ae.BackgroundColor3=da and Color3 .fromRGB(42,42,Xf(31840))or Color3 .fromRGB(28,Xf(24781),34)
+                end){[24543]='ON',[14433]=28,[21492]=52}
+            end
+            ae.MouseButton1Click:Connect(function()
+                ba[J]=not ba[J];
+                Qd();
+                Ua()
+            end);
+            Qd()
+        end){[7445]=1,[-18385]=40,[-26608]=28,[-26214]=1,[16113]=0,[-4592]=' Status',[-2611]=1,[20737]=0,[-25074]=1,[30393]=0,[17938]=-150,[-6239]=235,[17855]='UICorner',[32753]=0,[19986]=240,[-5192]=14,[-3592]=235,[-31204]='TextLabel',[4188]=34,[-11853]=240,[21072]='Frame'}
+    end
+    for fb,Lb in pairs(ba)do
+        yc(fb)
+    end
+    task.defer(function()
+        return(function(me)
+            local function Uf(Ca)
+                return me[Ca+-13463]
+            end
+            Md.CanvasSize=UDim2 .new(Uf(39519),0,0,Ic.AbsoluteContentSize.Y+12)
+        end){[26056]=0}
+    end);
+    Xa.CharacterAdded:Connect(function()
+        task.wait(0.10000000000000001);
+        Ua()
+    end)
+    local f_=nil;
+    rf(wg,'Players',18)
+    local n_=Instance.new(if_(-29911));
+    n_.Position=UDim2 .fromOffset(if_(5116),60);
+    n_.Size=UDim2 .fromOffset(360,330);
+    n_.BackgroundColor3=Color3 .fromRGB(if_(19444),if_(31927),if_(-10279));
+    n_.Parent=wg;
+    Instance.new(if_(19047),n_).CornerRadius=UDim.new(if_(16439),if_(-32080))
+    local O=Instance.new(if_(24526));
+    O.Position=UDim2 .fromOffset(if_(11370),10);
+    O.Size=UDim2 .new(1,-20,1,if_(-20198));
+    O.BackgroundTransparency=if_(10702);
+    O.ScrollBarThickness=if_(-4622);
+    Md.CanvasSize=UDim2 .new(if_(26267),if_(-16999),if_(-11823),0);
+    O.Parent=n_
+    local fc=Instance.new'UIListLayout';
+    fc.Padding=UDim.new(0,if_(21899));
+    fc.SortOrder=Enum.SortOrder.LayoutOrder;
+    fc.Parent=O
+    local Be=Instance.new'Frame';
+    Be.Position=UDim2 .fromOffset(390,if_(-20896));
+    Be.Size=UDim2 .fromOffset(if_(-17350),if_(-30170));
+    Be.BackgroundColor3=Color3 .fromRGB(if_(-28285),if_(-14998),if_(32211));
+    Be.Parent=wg;
+    Instance.new(if_(-30432),Be).CornerRadius=UDim.new(0,if_(-12996))
+    local b_=Instance.new'ImageLabel';
+    b_.Position=UDim2 .fromOffset(if_(-23996),if_(-9152));
+    b_.Size=UDim2 .fromOffset(64,64);
+    b_.BackgroundTransparency=if_(14030);
+    b_.Parent=Be
+    local Bc=Instance.new(if_(5507));
+    Bc.Position=UDim2 .fromOffset(if_(-7667),if_(-17394));
+    Bc.Size=UDim2 .fromOffset(if_(-12225),64);
+    Bc.BackgroundTransparency=1;
+    Bc.Font=Enum.Font.Gotham;
+    Bc.TextSize=13;
+    Bc.TextXAlignment=Enum.TextXAlignment.Left;
+    Bc.TextYAlignment=Enum.TextYAlignment.Top;
+    Bc.TextColor3=Color3 .fromRGB(if_(-19892),235,235);
+    Bc.TextWrapped=true;
+    Bc.Text=if_(-9360);
+    Bc.Parent=Be
+    local gf=Instance.new'TextLabel';
+    gf.Position=UDim2 .fromOffset(14,if_(28343));
+    gf.Size=UDim2 .fromOffset(if_(-9330),if_(-30874));
+    gf.BackgroundTransparency=1;
+    gf.Font=Enum.Font.Gotham;
+    gf.TextSize=if_(27060);
+    gf.TextXAlignment=Enum.TextXAlignment.Left;
+    gf.TextColor3=Color3 .fromRGB(180,if_(-605),180);
+    gf.Text=if_(4803);
+    gf.Parent=Be
+    local function Gf(Ie)
+        if Ie and Ie.Character then
+            local Ac=Ud(Ie)
+            if Ac then
+                Jb.CameraSubject=Ac
+                return
+            end
+        end
+        local Wf=Ud(Xa)
+        if not(Wf)then
+        else
+            Jb.CameraSubject=Wf
+        end
+    end
+    local function de(eb)
+        if not(not eb or not eb.Character)then
+        else
+            return
+        end
+        if not(not Xa.Character)then
+        else
+            return
+        end
+        Xa.Character:PivotTo(eb.Character:GetPivot())
+    end
+    local function bb()
+        return(function(t_)
+            local function ff(tc)
+                return t_[tc+-27128]
+            end
+            if f_ then
+                gf.Text='Whitelisted: '..(Uc[f_.UserId]and ff(12004)or'NO')
+            end
+        end){[-15124]='YES'}
+    end
+    local function te(oc,Eg,xg)
+        return(function(cf)
+            local function ia(Ab)
+                return cf[Ab+25803]
+            end
+            local Pd=Instance.new(ia(-43047));
+            Pd.Position=UDim2 .fromOffset(ia(-10440),Eg);
+            Pd.Size=UDim2 .fromOffset(184,34);
+            Pd.BackgroundColor3=Color3 .fromRGB(28,ia(-23318),34);
+            Pd.TextColor3=Color3 .fromRGB(240,ia(-24928),ia(-36123));
+            Pd.Font=Enum.Font.GothamSemibold;
+            Pd.TextSize=ia(-5972);
+            Pd.Text=oc;
+            Pd.Parent=Be;
+            Instance.new('UICorner',Pd).CornerRadius=UDim.new(0,12);
+            Pd.MouseButton1Click:Connect(function()
+                return(function(rg)
+                    local function y(pf)
+                        return rg[pf-31873]
+                    end
+                    xg();
+                    bb()
+                    if f_ then
+                        ja(f_)
+                        if not(Uc[f_.UserId])then
+                        else
+                            Id=y(4824)
+                        end
+                    end
+                end){[-27049]=nil}
+            end)
+            return Pd
+        end){[-17244]='TextButton',[15363]=14,[875]=240,[-10320]=240,[2485]=28,[19831]=13}
+    end
+    te('Whitelist',112,function()
+        if not(not f_)then
+        else
+            return
+        end
+        Uc[f_.UserId]=true
+    end);
+    te(if_(19187),154,function()
+        return(function(Da)
+            local function va(q)
+                return Da[q-18589]
+            end
+            if not f_ then
+                return
+            end
+            Uc[f_.UserId]=va(-6468)
+        end){[-25057]=nil}
+    end);
+    te(if_(24162),196,function()
+        if not f_ then
+            return
+        end
+        Gf(f_)
+    end);
+    te('Unspectate',238,function()
+        return(function(Bd)
+            local function sb(Me)
+                return Bd[Me+9393]
+            end
+            Gf(sb(-39729))
+        end){[-30336]=nil}
+    end);
+    te(if_(-6135),280,function()
+        if not(not f_)then
+        else
+            return
+        end
+        de(f_)
+    end)
+    local function oe(Bg)
+        return(function(we)
+            local function rc(D)
+                return we[D- -15942]
+            end
+            f_=Bg
+            if not(not Bg)then
+            else
+                b_.Image=rc(-22798);
+                Bc.Text=rc(-23522);
+                gf.Text=rc(-22970)
+                return
+            end
+            local T=Ta:GetUserThumbnailAsync(Bg.UserId,Enum.ThumbnailType.HeadShot,Enum.ThumbnailSize.Size180x180);
+            b_.Image=T;
+            Bc.Text=rc(8698):format(Bg.DisplayName,Bg.Name);
+            bb()
+        end){[-6856]='',[-7028]='',[-7580]='Select a player',[24640]=('Display: %s\nUsername: %s')}
+    end
+    local Zd={}
+    local function Ne()
+        return(function(ke)
+            local function Se(_f)
+                return ke[_f+6102]
+            end
+            for Ib,ze in ipairs(O:GetChildren())do
+                if not(ze:IsA'TextButton')then
+                else
+                    ze:Destroy()
+                end
+            end
+            table.clear(Zd)
+            for Rb,k in ipairs(Ta:GetPlayers())do
+                if not(k==Xa)then
+                else
+                    continue
+                end
+                local ra=Instance.new'TextButton';
+                ra.Size=UDim2 .new(Se(-2270),0,Se(-29453),Se(5895));
+                ra.BackgroundColor3=Color3 .fromRGB(28,28,Se(25518));
+                ra.TextColor3=Color3 .fromRGB(240,240,Se(-38041));
+                ra.Font=Enum.Font.GothamSemibold;
+                ra.TextSize=Se(18250);
+                ra.Text=k.DisplayName;
+                ra.Parent=O;
+                Instance.new(Se(-18464),ra).CornerRadius=UDim.new(0,12);
+                ra.MouseButton1Click:Connect(function()
+                    return(function(Tb)
+                        local function Mb(pd)
+                            return Tb[pd+6241]
+                        end
+                        for ob,ue in pairs(Zd)do
+                            ue.BackgroundColor3=Color3 .fromRGB(Mb(5042),28,Mb(6767))
+                        end
+                        ra.BackgroundColor3=Color3 .fromRGB(42,42,Mb(-29067));
+                        oe(k)
+                    end){[13008]=34,[11283]=28,[-22826]=52}
                 end);
-                B[G.UserId]=rd
+                Zd[k.UserId]=ra
             end
             task.defer(function()
-                return(function(Yc)
-                    local function k(ra)
-                        return Yc[ra-22117]
+                return(function(Hd)
+                    local function Rd(ye)
+                        return Hd[ye- -1649]
                     end
-                    ad.CanvasSize=UDim2 .new(0,0,k(4771),Rb.AbsoluteContentSize.Y+k(48474))
-                end){[-17346]=0,[26357]=12}
+                    O.CanvasSize=UDim2 .new(Rd(-25389),Rd(19871),Rd(-26245),fc.AbsoluteContentSize.Y+Rd(-21327))
+                end){[-24596]=0,[-19678]=12,[-23740]=0,[21520]=0}
             end)
-        end){[-18626]=240,[-8413]=1,[-16529]='TextButton',[389]=14,[-30589]='TextButton',[21059]=240,[18024]=28,[-414]=28,[-31557]='UICorner',[23688]=0}
+        end){[24352]=14,[-12362]='UICorner',[31620]=34,[-23351]=0,[3832]=1,[-31939]=240,[11997]=42}
     end
-    Wb();
-    Oa.PlayerAdded:Connect(Wb);
-    Oa.PlayerRemoving:Connect(function(Zc)
-        return(function(ld)
-            local function v(O)
-                return ld[O+4109]
+    Ne();
+    Ta.PlayerAdded:Connect(Ne);
+    Ta.PlayerRemoving:Connect(function(_e)
+        return(function(Jf)
+            local function w_(cg)
+                return Jf[cg-17686]
             end
-            if uc==Zc then
-                Ac(v(21970))
+            if f_==_e then
+                oe(w_(27258))
             end
-            Wb()
-        end){[26079]=nil}
+            Ne()
+        end){[9572]=nil}
     end);
-    a_.InputBegan:Connect(function(ma,jd)
-        if ma.KeyCode==Enum.KeyCode.Insert or ma.KeyCode==Enum.KeyCode.F4 then
-            td.Enabled=not td.Enabled
+    Ed.InputBegan:Connect(function(zc,yb)
+        if zc.KeyCode==Enum.KeyCode.Insert or zc.KeyCode==Enum.KeyCode.F4 then
+            Fe.Enabled=not Fe.Enabled
         end
-    end);
-    print(Sa(25249))
-end)({[1918]='TextLabel',[17319]=60,[11631]=false,[-7812]=235,[-13847]=18,[-17490]=22,[-26196]='Players',[-2447]='PlayerGui',[1570]='Toggle',[-9138]=330,[-22896]=14,[27663]=1,[30691]=12,[19435]=83.670000000000002,[-25731]=25,[-5462]=20,[-25338]='Aimbot',[-28793]=620,[-10051]='TextLabel',[-4797]='Aimbot',[25397]=150,[-32020]='Frame',[9618]=0.29999999999999999,[-6139]=18,[27967]=52,[-18817]='Sticky Lock: OFF',[27869]=-36,[-26708]=0.5,[18127]=10,[-31617]=18,[-22987]='Aimbot Key: ',[-2315]=13,[-9513]=1,[-305]=1,[32479]=false,[-2696]=22,[-21654]='Frame',[5050]=12,[-21790]='Players',[8872]=820,[6882]=0,[-6146]=14,[-19877]=0,[19780]=16,[30183]=1,[-19]='UICorner',[-32743]=180,[-19713]=360,[905]='UICorner',[13728]='RunService',[21852]=1,[21686]=40,[-2187]=52,[-31868]='Smoothness',[-26601]=20,[25947]='Spectate',[6827]=196,[-13694]=1,[-20258]=330,[20171]=1,[31972]=0.5,[5205]=6,[-14435]=0.16700000000000001,[31950]=14,[-24098]=1,[19375]=nil,[-12809]='GuiService',[-32115]='UserInputService',[-12725]=14,[-17073]=0,[26051]=18,[28829]=12,[-3931]=280,[21601]=0,[-7873]='Aimbot',[4894]='TextLabel',[-28585]='Frame',[-23232]=0,[-21332]=16,[-601]=14,[-28029]='lwserboy on discord for more. Insrt/F4 for UI toggle',[3672]=30,[7243]=180,[6885]=1,[7574]=32,[-8614]=360,[13953]=84,[17264]=true,[31374]='UIListLayout',[18469]=0,[-22979]='TextButton',[-19936]='UICorner',[32665]=16,[-7188]='ImageLabel',[16822]=1,[-24034]=20,[-18812]=14,[-24369]=240,[18964]='Fully loaded. lwserboy on dc for more cheats',[30829]='TextLabel',[13243]=-20,[-14871]=0,[-10570]=12,[-21268]=-36,[11979]=460,[5021]='UICorner',[-23286]=112,[-10050]=1,[-18613]=16,[-506]=240,[10859]=35,[-18548]=235,[-4279]=0.5,[25861]='UIListLayout',[-17918]=0,[-40]=240,[31282]=10,[17051]=212,[-13873]=0,[-3516]=1,[17716]=235,[1073]='Players',[13147]=16,[15116]=330,[28776]=420,[2609]=40,[-9709]='TextButton',[-7441]=25,[6219]=22,[8287]=0.5,[-1454]=0,[-29772]=64,[32745]=0,[-22421]=330,[7142]=0,[10230]=18,[-29074]=0,[-28947]=false,[-13065]=14,[4760]=1,[6000]='Frame',[21134]=0.5,[25895]=14,[1304]=0,[-9124]=18,[-31548]='UICorner',[27644]='C'},...)
+    end)
+end)({[27928]=0,[2925]=28,[-3795]=0.16700000000000001,[23887]=6,[22610]=0,[-31434]=190,[1128]='Frame',[27505]=12,[-8707]=14,[-10496]=820,[31485]=1,[6201]=10,[-10570]=14,[-24967]=0,[-16038]=1,[-20451]=60,[19792]='UICorner',[-534]=nil,[-19447]=235,[32656]=28,[-7911]=0,[11870]=true,[-19445]=584,[-18537]='TextButton',[31705]=210,[17610]='Visual Tank Toggle and Anti-Touch protection.',[6724]=false,[4199]=18,[29386]=0,[32463]=0,[-7618]=14,[17278]=20,[16555]=0,[-22589]='Head',[290]='Prediction Y',[-16554]=0,[14475]=1,[-16838]=52,[16828]=2,[-1869]=0,[4900]=1,[2187]=10,[7938]=0,[14719]='Sticky Lock: OFF',[16884]=0,[26100]='Right Leg',[19632]='Unwhitelist',[8652]=28,[-10939]=20,[-16949]=14,[32714]=20,[-14041]=190,[-12865]='UICorner',[-32062]='Aimbot Key: ',[11585]=12,[-12954]='TextLabel',[-24233]='Left Arm',[1615]=2,[13098]=15,[-8915]='Select a player',[-31680]=-36,[-18778]=0,[-31795]=true,[-11780]=112,[-27840]=22,[-25414]='Frame',[-4029]=22,[921]='Frame',[8918]=14,[13834]='Reset on Death',[6978]=460,[-3445]=0,[32372]=22,[-7276]=28,[-18458]=10,[22102]='ScrollingFrame',[-1876]=190,[-29725]=330,[11968]=1,[29311]=22,[-8415]=10,[22344]=10,[-7435]=0,[8396]='Players',[21599]='UIListLayout',[25294]=true,[7736]=255,[-25258]='UIPadding',[3483]=28,[23922]=0,[21539]=true,[-5481]='ScreenGui',[3843]='Smoothness',[-9413]=0,[-28544]=0.29999999999999999,[18130]='Right Arm',[17285]=0,[-13925]=1,[5630]=18,[-11177]=0,[-24279]=1,[13582]=0,[28805]=0.5,[28570]=-20,[21442]=5,[-12482]='HumanoidRootPart',[27042]=0,[21227]=34,[-31946]=1,[27491]=true,[-15015]=20,[8051]=20,[20085]=1,[5248]='',[-7491]='UIPadding',[-5304]='UICorner',[-19839]=0,[-14553]=22,[-849]=1,[26712]=0,[18277]='TextLabel',[4124]=0,[9196]=0,[-31144]=420,[-11378]=0,[-29987]='UICorner',[16832]=1,[-22464]=24,[-11133]=235,[11913]=28,[-5869]=false,[2019]=180,[-7222]=86,[-21651]=235,[-23649]=0,[5561]=18,[-19422]='UICorner',[16421]=36,[12374]=16,[-13653]=22,[-30301]='UICorner',[-21418]=3.6699999999999999,[-4062]=0,[-9475]=36,[-2308]=20,[17331]='UIListLayout',[-9615]=34,[-160]=180,[-19753]=-20,[32307]=0,[-32619]=1,[-10929]=20,[-30103]=255,[-32401]=0,[18318]=0,[2912]=0,[7493]=12,[19917]=true,[-7995]='TextButton',[14522]='TextBox',[29383]='PlayerGui',[23403]=false,[-9834]=28,[-25288]=false,[-27276]=40,[24971]='ScrollingFrame',[-20818]='Frame',[-17990]='GuiService',[18705]=0,[-26255]=60,[1954]=true,[-10464]=12,[-20764]=false,[19492]='UICorner',[12744]=18,[4485]=60,[24607]='Spectate',[17791]=240,[-28636]=60,[28788]=84,[-19189]=0,[-15273]=0.5,[11815]=10,[-19861]='Stop/Revert Health',[23698]=1,[-5690]='Teleport',[-7925]=12,[13945]=10,[24067]='Hitbox Expander',[-29466]='Frame',[-28349]=0,[-19586]=1,[2210]='Tank Utilities',[-8885]=184,[-8104]=420,[-14314]='Tank',[5952]='TextLabel',[-13107]='PhysicsService',[-12551]=14,[-5758]=18,[-1757]=83.670000000000002,[193]=584,[-19797]=false,[19889]=22,[-182]=12,[13867]=15,[-23551]=14,[-16905]=212,[23653]=10,[-17622]=1,[11147]=1,[12212]='Hitbox Multiplier',[20649]=1,[2348]=14,[-30429]=18,[-31635]=14,[7611]=12,[2310]=1,[-4177]=6},...)
