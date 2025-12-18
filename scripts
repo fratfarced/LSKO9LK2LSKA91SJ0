@@ -413,7 +413,7 @@ return(function(Jd,...)
     Xc.TextSize=16;
     Xc.TextColor3=Color3 .fromRGB(if_(-22096),235,if_(-11578));
     Xc.TextXAlignment=Enum.TextXAlignment.Left;
-    Xc.Text='lwserboy on discord for more. + version';
+    Xc.Text='lwserboy on discord for more. v1.0.9';
     Xc.Parent=V
     do
         local o_=false
